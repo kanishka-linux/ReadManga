@@ -89,17 +89,29 @@ First select 'Source' site. Then select either Search or History sub-option. If 
 
 
 f :  toggle fullscreen mode {In fullscreen mode mouse pointer hides automatically and can become visible for few seconds by pressing the key 'i'}
+
 w:  fit to width
+
 o :  original size
+
 '=': increase size of image by 0.1 factor
+
 '-' : decrease size of image by 0.1 factor
+
 p:   show/hide side bar or option bar
+
 'Down' : Simply scroll down and auto-load next page once current page reaches it's end.
+
 'Right' : load next page (Normally no need to use it, if you are using down key. But sometimes it is useful when 'Down' key does not lead to next page)
+
 'i' : show mouse pointer in fullscreen mode for few seconds { useful in fullscreen mode to reload image by clicking it, when mouse pointer is hidden}
+
 Delete : Delete appropriate entry in the history/search column
 
 If incomplete image gets loaded then simply click on the page to reload it again.
 
-Note: Once a page is ended, By simply pressing 'Down' key, next page is loaded automatically. It means new page is created on the fly dynamically. It does not remove previous pages and all the visited pages are kept in memory for later reference, which one can access via 'Up' or 'Down' key. Therefore, it is possible that if you've accessed large number of pages in one single session, then RAM of your system might get full, if your system has less memory. In order to free up the memory double click on the required 'chapter' of the 'Chapters' Tab of Option/Side-bar. When you select new manga then memory occupied by earlier manga is freed automatically. Alternatively, you can simply close the application to free up the memory.
+#Note: 
+
+1. Once a page is ended, By simply pressing 'Down' key, next page is loaded automatically. It means new page is created on the fly dynamically. It does not remove previous pages and all the visited pages are kept in memory for later reference, which one can access via 'Up' or 'Down' key. Therefore, it is possible that if you've accessed large number of pages in one single session, then RAM of your system might get full, if your system has less memory. In order to free up the memory double click on the required 'chapter' of the 'Chapters' Tab of Option/Side-bar. When you select new manga then memory occupied by earlier manga is freed automatically. Alternatively, you can simply close the application to free up the memory.
  
+2. In this application '/tmp/ReadManga/' acts as cache folder. If images are not loading or search function is not working then try removing contents of cache folder or simply delete the cache folder manually itself and restart the application.
