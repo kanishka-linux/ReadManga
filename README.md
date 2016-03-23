@@ -108,7 +108,7 @@ p:   show/hide side bar or option bar
 
 Delete : Delete appropriate entry in the history/search column
 
-If incomplete image gets loaded then simply click on the page to reload it again.
+If incomplete image gets loaded then simply click on the image to reload it again.
 
 #Note: 
 
