@@ -7,13 +7,16 @@ Therefore, before using this application please check the copyright and licensin
 ![ReadManga](/Images/sample.png)
 
 #Dependencies and Installation:
-(This Application is mainly written in pyqt4 and python3)
+(ReadManga Application is mainly written in pyqt4 and python3)
+(ReadManga-PyQt5 Application is experimental and written in pyqt5 and python3)
 
 Note: If you've successfully installed AnimeWatch Player before, then you don't have to install any dependencies at all and can directly go to main installation process.
 
 python3
 
-python-pyqt4
+python-pyqt4 {for stable ReadManga Application}
+
+python-pyqt5 (for experimental ReadManga-PyQt5 Application)
 
 python-requests
 
@@ -39,17 +42,18 @@ phantomjs
 
 #Dependencies installation in arch.
 
-sudo pacman -S python python-pyqt4 python-pycurl python-requests python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil python-pip curl wget phantomjs
+sudo pacman -S python python-pyqt4 python-pyqt5 python-pycurl python-requests python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil python-pip curl wget phantomjs
 
 
 
 #In ubuntu 14.04, default python points to python 2.7, hence for installing dependencies use following command
 
-sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-requests python3-urllib3 python3-pil python3-bs4 python3-lxml python3-psutil python3-pip curl wget phantomjs
+sudo apt-get install python3 python3-pyqt4 python3-pyqt5 python3-pycurl python3-requests python3-urllib3 python3-pil python3-bs4 python3-lxml python3-psutil python3-pip curl wget phantomjs
 
 
 
-#Once Dependencies are installed Download the folder. Goto ReadManga Directory containing 'install.py' file. Open Terminal in the directory and use following command:
+#Once Dependencies are installed Download the folder. Goto ReadManga Directory containing 'install.py' file (If you want stable version of the application written in pyqt4). If you want to try experimental version of the application written in pyqt5 then goto ReadManga-PyQt5 Directory containing 'install.py' file. 
+Once you are inside the required directory, Open Terminal in the directory and use following command:
 
 #In Arch:
 
