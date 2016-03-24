@@ -55,7 +55,7 @@ sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-requests pytho
 
 #Dependencies installation in arch (Experimental Version i.e. ReadManga-PyQt5).
 
-sudo pacman -S python python-pyqt4 python-pyqt5 python-pycurl python-requests python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil python-pip curl wget phantomjs
+sudo pacman -S python python-pyqt5 python-pycurl python-requests python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil python-pip curl wget phantomjs
 
 #In ubuntu 14.04, Experimental Version i.e. ReadManga-PyQt5 not working 
 
