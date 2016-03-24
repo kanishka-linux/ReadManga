@@ -57,7 +57,7 @@ sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-requests pytho
 
 sudo pacman -S python python-pyqt5 python-pycurl python-requests python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil python-pip curl wget phantomjs
 
-#In ubuntu 14.04, Experimental Version i.e. ReadManga-PyQt5 not working 
+In ubuntu 14.04, Experimental Version i.e. ReadManga-PyQt5 is not working 
 
 Once Dependencies are installed Download the folder. Goto ReadManga Directory containing 'install.py' file (If you want stable version of the application written in pyqt4). If you want to try experimental version of the application written in pyqt5 then goto ReadManga-PyQt5 Directory containing 'install.py' file. 
 Once you are inside the required directory, Open Terminal in the directory and use following command:
