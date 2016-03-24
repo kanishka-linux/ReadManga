@@ -57,7 +57,7 @@ sudo apt-get install python3 python3-pyqt4 python3-pyqt5 python3-pycurl python3-
 
 
 
-#Once Dependencies are installed Download the folder. Goto ReadManga Directory containing 'install.py' file (If you want stable version of the application written in pyqt4). If you want to try experimental version of the application written in pyqt5 then goto ReadManga-PyQt5 Directory containing 'install.py' file. 
+Once Dependencies are installed Download the folder. Goto ReadManga Directory containing 'install.py' file (If you want stable version of the application written in pyqt4). If you want to try experimental version of the application written in pyqt5 then goto ReadManga-PyQt5 Directory containing 'install.py' file. 
 Once you are inside the required directory, Open Terminal in the directory and use following command:
 
 #In Arch:
