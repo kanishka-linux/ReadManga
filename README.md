@@ -6,11 +6,16 @@ Therefore, before using this application please check the copyright and licensin
 #Screenshot
 ![ReadManga](/Images/sample.png)
 
-#Dependencies and Installation:
-(ReadManga Application is mainly written in pyqt4 and python3)
-(ReadManga-PyQt5 Application is experimental and written in pyqt5 and python3)
+#Note : 
 
-Note: If you've successfully installed AnimeWatch Player before, then you don't have to install any dependencies at all and can directly go to main installation process.
+1. ReadManga Application is Stable (Inside ReadManga Directory) and written in pyqt4 and python3.
+
+2. ReadManga-PyQt5 Application is experimental (Inside ReadManga-PyQt5 Directory) and written in pyqt5 and python3.
+
+3. If you've successfully installed AnimeWatch Player before, then you don't have to install any dependencies at all and can directly go to main installation process for the stable version.
+
+
+#Dependencies and Installation:
 
 python3
 
