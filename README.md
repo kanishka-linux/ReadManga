@@ -3,6 +3,8 @@
 Note: This application fetches manga images from various sites available on the internet.
 Therefore, before using this application please check the copyright and licensing laws of your country. Because it's possible that some of these Manga might be already licensed in your country. Therefore use this application at your own risk. Author of the 'ReadManga' application is not at all related to any of these sites or their content provider. This application is simply a desktop client that fetches manga images from sites on the internet. If the site from which this application fetches images either closes or changes it's source, then this application will also fail to perform it's designated function. 
 
+(Arch users can directly go to Release section ,download appropriate package and install it using 'sudo pacman -U pkg_name')
+
 #Screenshot
 ![ReadManga](/Images/sample.png)
 
@@ -16,6 +18,10 @@ Therefore, before using this application please check the copyright and licensin
 
 
 #Dependencies and Installation:
+
+(Arch users can directly go to Release section ,download appropriate package. The package can be installed using 'sudo pacman -U pkg_name', if some dependencies are missing then try installing it using 'yaourt -U pkg_name'. Then they can skip all other steps. Package can be uninstalled using 'sudo pacman -R ReadManga')
+
+#Dependencies
 
 python3
 
