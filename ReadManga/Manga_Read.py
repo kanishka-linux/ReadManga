@@ -57,8 +57,12 @@ def getContentUnicode(content):
 
 def cloudfare(url):
 			home1 = expanduser("~")
-			pluginDir = home1+"/.config/ReadMangaKA/src"
-			temp = progressBar(["phantomjs", pluginDir+"/ka.js","http://kissmanga.com"])
+			pluginDir = "/usr/share/ReadManga/ka.js"
+			if os.path.exists(pluginDir):
+				plugin_path = pluginDir
+			else:
+				plugin_path = home1+"/.config/ReadMangaKA/src/ka.js"
+			temp = progressBar(["phantomjs", plugin_path,"http://kissmanga.com"])
 			temp = getContentUnicode(temp)
 			print (temp)
 			p = re.findall('{[^}]*}',temp)

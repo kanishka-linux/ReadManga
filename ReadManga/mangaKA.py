@@ -990,6 +990,9 @@ if __name__ == "__main__":
 		os.makedirs('/tmp/ReadManga/')
 	if os.path.exists(home+'/src'):
 		os.chdir(home+'/src')
+		sys.path.append(home+'/src')
+	if os.path.exists('/usr/share/ReadManga'):
+		sys.path.append('/usr/share/ReadManga')
 	try:
 		m = os.listdir('/tmp/ReadManga/')
 		for i in m:
