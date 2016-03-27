@@ -14,9 +14,9 @@ Therefore, before using this application please check the copyright and licensin
 
 #Note : 
 
-1. ReadManga Application is Stable (Inside ReadManga Directory) and written in pyqt4 and python3.
+1. ReadManga-PyQt4-Stable is Stable version (Inside ReadManga-PyQt4-Stable Directory) and written in pyqt4 and python3.
 
-2. ReadManga-PyQt5 Application is experimental (Inside ReadManga-PyQt5 Directory: Currently Working only in Arch-Linux) and written in pyqt5 and python3.
+2. ReadManga-PyQt5-Experimental is experimental version (Inside ReadManga-PyQt5-Experimental Directory: Currently Working only in Arch-Linux) and written in pyqt5 and python3.
 
 3. If you've successfully installed AnimeWatch Player before, then you don't have to install any dependencies at all and can directly go to main installation process for the stable version.
 
