@@ -513,7 +513,10 @@ class Ui_MainWindow(object):
 				#print m[0]
 				n = re.findall('[^%]*',m[0])
 				if n:
-					val = int(n[0])
+					try:
+						val = int(n[0])
+					except:
+						val = 0
 					self.progress.setValue(val)
 				out = str(m[0])+" "+sizeFile +"(Loading Page Wait!)"
 				#self.goto_epn.setText(out)
@@ -936,20 +939,23 @@ class Ui_MainWindow(object):
 	
 	def getEpnInfo(self):
 		global name,base_url,chapterNo,nam,arrPage,pageNo,site
-		pageNo = 0
-		nam = self.list1.currentItem().text()
-		nam = str(nam)
-		chapterNo = nam
-		ka=Manga_Read(site)
-		nxt=ka.getPage(site,name,nam)
-		del ka
-		self.list2.clear()
-		arrPage[:]=[]
-		for i in nxt:
-			arrPage.append(i)
-			self.list2.addItem(i.split('/')[-1])
-		print (arrPage)
-		
+		try:
+			pageNo = 0
+			nam = self.list1.currentItem().text()
+			nam = str(nam)
+			chapterNo = nam
+			
+			ka=Manga_Read(site)
+			nxt=ka.getPage(site,name,nam)
+			del ka
+			self.list2.clear()
+			arrPage[:]=[]
+			for i in nxt:
+				arrPage.append(i)
+				self.list2.addItem(i.split('/')[-1])
+			print (arrPage)
+		except:
+			pass
 	  
 	def setchapter2(self):
 		global name,base_url,chapterNo,nam,arrPage,pageNo,label_no

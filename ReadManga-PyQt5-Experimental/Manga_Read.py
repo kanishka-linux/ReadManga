@@ -417,14 +417,15 @@ class Manga_Read():
 			content = ccurl(url)
 			soup = BeautifulSoup(content)
 			link = soup.find('div',{'id':'asset_2'})
-			link1 = link.findAll('option')
-			num = 1
-			url1 = "http://www.goodmanga.net/images/manga/"+nam2+"/"+epn
-			for i in link1:
-				j = i['value']
-				k = j.split('/')[-1]
-				m.append(url1+'/'+str(num)+'.jpg')
-				num = num+1
+			if link:
+				link1 = link.findAll('option')
+				num = 1
+				url1 = "http://www.goodmanga.net/images/manga/"+nam2+"/"+epn
+				for i in link1:
+					j = i['value']
+					k = j.split('/')[-1]
+					m.append(url1+'/'+str(num)+'.jpg')
+					num = num+1
 			print (m)
 			return m
 		elif site == "MangaBB":
@@ -435,19 +436,20 @@ class Manga_Read():
 			soup = BeautifulSoup(content)
 			
 			imgLink = soup.find('div',{'id':'manga_viewer'})
-			imgUrl = (imgLink.find('img'))['src']
-			nameImg = imgUrl.split('/')[-3]
-			
-			link = soup.find('div',{'id':'asset_2'})
-			link1 = link.findAll('option')
-			num = 1
-			nam = name.replace('-','_')
-			url1 = "http://www.mangabb.co/images/manga/"+nameImg+"/"+ep[-1]
-			for i in link1:
-				j = i['value']
-				k = j.split('/')[-1]
-				m.append(url1+'/'+str(num)+'.jpg')
-				num = num+1
+			if imgLink:
+				imgUrl = (imgLink.find('img'))['src']
+				nameImg = imgUrl.split('/')[-3]
+				
+				link = soup.find('div',{'id':'asset_2'})
+				link1 = link.findAll('option')
+				num = 1
+				nam = name.replace('-','_')
+				url1 = "http://www.mangabb.co/images/manga/"+nameImg+"/"+ep[-1]
+				for i in link1:
+					j = i['value']
+					k = j.split('/')[-1]
+					m.append(url1+'/'+str(num)+'.jpg')
+					num = num+1
 			print (m)
 			return m
 		elif site == "MangaReader":
@@ -458,42 +460,43 @@ class Manga_Read():
 			soup = BeautifulSoup(content)
 			
 			imgLink = soup.find('div',{'id':'imgholder'})
-			imgUrl = (imgLink.find('img'))['src']
-			nameImg = imgUrl.split('/')[-1]
-			nameImg = nameImg.replace('.jpg','')
-			tName = nameImg.split('-')[-1]
-			
-			arr = nameImg.split('-')
-			arr = arr[:-1]
-			p_name = arr[0]
-			length = len(arr)
-			i = 1
-			while(i < length):
-				p_name = p_name + '-'+ arr[i]
-				i = i+1
+			if imgLink:
+				imgUrl = (imgLink.find('img'))['src']
+				nameImg = imgUrl.split('/')[-1]
+				nameImg = nameImg.replace('.jpg','')
+				tName = nameImg.split('-')[-1]
 				
-			urlArr = imgUrl.split('/')
-			urlArr = urlArr[:-1]
-			p_url = urlArr[0]
-			length = len(urlArr)
-			i = 1
-			while(i < length):
-				p_url = p_url + '/' + urlArr[i]
-				i = i+1
+				arr = nameImg.split('-')
+				arr = arr[:-1]
+				p_name = arr[0]
+				length = len(arr)
+				i = 1
+				while(i < length):
+					p_name = p_name + '-'+ arr[i]
+					i = i+1
+					
+				urlArr = imgUrl.split('/')
+				urlArr = urlArr[:-1]
+				p_url = urlArr[0]
+				length = len(urlArr)
+				i = 1
+				while(i < length):
+					p_url = p_url + '/' + urlArr[i]
+					i = i+1
+					
+				link = soup.find('div',{'id':'selectpage'})
+				link1 = link.findAll('option')
 				
-			link = soup.find('div',{'id':'selectpage'})
-			link1 = link.findAll('option')
-			
-			#num = int(tName)
-			num = 1
-			url1 = p_url+'/'+p_name
-			print (url1)
-			for i in link1:
-				j = i['value']
-				k = j.split('/')[-1]
-				#m.append(url1+'-'+str(num)+'.jpg')
-				m.append("http://www.mangareader.net"+j)
-				num = num+1
+				#num = int(tName)
+				num = 1
+				url1 = p_url+'/'+p_name
+				print (url1)
+				for i in link1:
+					j = i['value']
+					k = j.split('/')[-1]
+					#m.append(url1+'-'+str(num)+'.jpg')
+					m.append("http://www.mangareader.net"+j)
+					num = num+1
 			print (m)
 			return m
 		elif site == "MangaHere":
@@ -507,36 +510,44 @@ class Manga_Read():
 			content = ccurl(url)
 			soup = BeautifulSoup(content)
 			link = soup.find('select',{'class':'wid60'})
-			
-			link1 = link.findAll('option')
+			if link:
+				link1 = link.findAll('option')
+			else:
+				link1 = []
 			
 			linkImg = soup.find('section',{'class':'read_img'})
 			
-			urlImg = linkImg.findAll('img')
-			for i in urlImg:
-				if 'src=' in str(i):
-					url2 = i['src']
-					url1 = url2.split('?')[0]
-					url1 = url1.replace('.jpg','')
-					
-			tNum = url1[-1]
+			if linkImg:
+				urlImg = linkImg.findAll('img')
+			else:
+				urlImg = []
 			try:
-				num = int(tNum)
-			except:
-				num = 1
-			for i in link1:
-				j = i['value']
-				k = j.split('/')[-1]
-				numStr = str(num)
-				if len(numStr) == 1:
-					urlNew = url1[:-1]
-				elif len(numStr) == 2:
-					urlNew1 = url1[:-1]
-					urlNew = urlNew1[:-1]
+				for i in urlImg:
+					if 'src=' in str(i):
+						url2 = i['src']
+						url1 = url2.split('?')[0]
+						url1 = url1.replace('.jpg','')
+						
+				tNum = url1[-1]
+				try:
+					num = int(tNum)
+				except:
+					num = 1
+				for i in link1:
+					j = i['value']
+					k = j.split('/')[-1]
+					numStr = str(num)
+					if len(numStr) == 1:
+						urlNew = url1[:-1]
+					elif len(numStr) == 2:
+						urlNew1 = url1[:-1]
+						urlNew = urlNew1[:-1]
 
-				#m.append(urlNew+numStr+'.jpg')
-				m.append(j)
-				num = num+1
+					#m.append(urlNew+numStr+'.jpg')
+					m.append(j)
+					num = num+1
+			except:
+				pass
 			print (m)
 			return m
 	
@@ -546,17 +557,17 @@ class Manga_Read():
 			url = epn
 			content = ccurl(url)
 			soup = BeautifulSoup(content)
-			
+			url1= ""
 			
 			linkImg = soup.find('section',{'class':'read_img'})
-			
-			urlImg = linkImg.findAll('img')
-			for i in urlImg:
-				if 'src=' in str(i):
-					url2 = i['src']
-					url1 = url2.split('?')[0]
-			
-			print (url1)
+			if linkImg:
+				urlImg = linkImg.findAll('img')
+				for i in urlImg:
+					if 'src=' in str(i):
+						url2 = i['src']
+						url1 = url2.split('?')[0]
+				
+				print (url1)
 			return url1
 		elif site == "MangaReader":
 			m = []
@@ -564,7 +575,10 @@ class Manga_Read():
 			content = ccurl(url)
 			soup = BeautifulSoup(content)
 			imgLink = soup.find('div',{'id':'imgholder'})
-			imgUrl = (imgLink.find('img'))['src']
+			if imgLink:
+				imgUrl = (imgLink.find('img'))['src']
+			else:
+				imgUrl = ""
 			return imgUrl
 			
 	

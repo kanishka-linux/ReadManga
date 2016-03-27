@@ -7,6 +7,8 @@ Therefore, before using this application please check the copyright and licensin
 
 (Ubuntu or Debian based distro users can also go to Release section,download appropriate .deb package and install it using 'sudo gdebi pkg_name.deb' )
 
+(If You've Already installed application using common method and now want to re-install it again using either .deb and .pkg.tar.xz, then first remove readmanga.desktop file located in '~/.local/share/applications/' and also remove config directory '~/.config/ReadMangaKA/src/')
+
 #Screenshot
 ![ReadManga](/Images/sample.png)
 
