@@ -3,9 +3,9 @@
 Note: This application fetches manga images from various sites available on the internet.
 Therefore, before using this application please check the copyright and licensing laws of your country. Because it's possible that some of these Manga might be already licensed in your country. Therefore use this application at your own risk. Author of the 'ReadManga' application is not at all related to any of these sites or their content provider. This application is simply a desktop client that fetches manga images from sites on the internet. If the site from which this application fetches images either closes or changes it's source, then this application will also fail to perform it's designated function. 
 
-(Arch users can directly go to Release section ,download appropriate pkg.tar.xz package and install it using 'sudo pacman -U pkg_name')
+(Arch users can directly go to Release section or Package Folder,download appropriate pkg.tar.xz package and install it using 'sudo pacman -U pkg_name')
 
-(Ubuntu or Debian based distro users can also go to Release section,download appropriate .deb package and install it using 'sudo gdebi pkg_name.deb' )
+(Ubuntu or Debian based distro users can also go to Release section or Package folder,download appropriate .deb package and install it using 'sudo gdebi pkg_name.deb' )
 
 (If You've Already installed application using common method and now want to re-install it again using either .deb and .pkg.tar.xz, then first remove readmanga.desktop file located in '~/.local/share/applications/' and also remove config directory '~/.config/ReadMangaKA/src/')
 
