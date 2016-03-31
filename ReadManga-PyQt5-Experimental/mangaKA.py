@@ -501,27 +501,26 @@ class Ui_MainWindow(object):
 	def dataReadyW(self,p):
 		global wget,new_epn,quitReally,curR,epn,opt,base_url,Player,site,sizeFile
 		#wget.waitForReadyRead()
-		a = str(p.readAllStandardOutput()).strip()
-		#print a
-		if "Length:" in a:
-			l = re.findall('[(][^)]*[)]',a)
-			if l:
-				sizeFile = l[0]
-		if "%" in a:
-			m = re.findall('[0-9][^\n]*',a)
-			if m:
-				#print m[0]
-				n = re.findall('[^%]*',m[0])
-				if n:
-					try:
+		try:
+			a = str(p.readAllStandardOutput()).strip()
+			#print a
+			if "Length:" in a:
+				l = re.findall('[(][^)]*[)]',a)
+				if l:
+					sizeFile = l[0]
+			if "%" in a:
+				m = re.findall('[0-9][^\n]*',a)
+				if m:
+					#print m[0]
+					n = re.findall('[^%]*',m[0])
+					if n:
 						val = int(n[0])
-					except:
-						val = 0
-					self.progress.setValue(val)
-				out = str(m[0])+" "+sizeFile +"(Loading Page Wait!)"
-				#self.goto_epn.setText(out)
-				self.progress.setFormat(out)
-		  
+						self.progress.setValue(val)
+					out = str(m[0])+" "+sizeFile +"(Loading Page Wait!)"
+					#self.goto_epn.setText(out)
+					self.progress.setFormat(out)
+		except:
+			pass
 	
     			
 	def startedW(self):
@@ -656,151 +655,157 @@ class Ui_MainWindow(object):
 	def hello(self,pageNo_t): 
 		global base_url,nextp,prevp,download,nextp_fetched,picn,chapterNo,pgn,series,hdr,arrPage,currentPage,arrReference,downloadNext,label_no,t_ht,arrPage,pageNo,t_width,site
 		
-		
-		downloadNext = 0
-		print (currentPage)
-		print (len(arrPage))
-		
-		val = t_ht+600
-		print ("val")
-		print (val)
-		#self.scrollArea.verticalScrollBar().setValue(self.scrollArea.verticalScrollBar().minimum())
-		#self.scrollArea.verticalScrollBar().setValue(int(val))
-		
-		series = name
-		#jpgn = (arrPage[pageNo_t].split('/')[-1]) 
-		jpgn = (urllib.parse.unquote(arrPage[pageNo_t])).split('/')[-1]
-		  #pgn = jpgn.split(".")[0]
-		jpgn1 = re.sub('.jpg|.png','',jpgn)
-		chapterNo_n = chapterNo.split('?')[0] 
-		if not chapterNo_n:
-				chapterNo_n = chapterNo
-		#picn = "/tmp/ReadManga/" + name + '-' + "chapter-" + chapterNo + "-page-" + jpgn
-		picn = "/tmp/ReadManga/"+name + '-' + "chapter-" + chapterNo_n + "-page-" + jpgn1
-		print (picn)
-		self.line2.clear()
-		self.line2.insert(str(jpgn1))
-		self.line3.clear()
-		self.line3.insert("chapter-"+chapterNo_n)
-		self.label3.setText(series)
-		  
-		p1="self.label_"+str(label_no)+" = ExtendedQLabel(self.scrollAreaWidgetContents)"
-		  #p7 = "l_"+str(i)+" = weakref.ref(self.label_"+str(i)+")"
-		p7 = "l_"+str(label_no)+" = weakref.ref(self.label_"+str(label_no)+")"  
-		p5="self.label_"+str(label_no)+".setObjectName(_fromUtf8("+'"'+"label_"+str(label_no)+'"'+"))"
-		p6="self.horizontalLayout.addWidget(self.label_"+str(label_no)+")"
-		#p9 = "self.label_"+str(label_no)+".setMaximumSize(QtCore.QSize(800, 16777215))"
-		p9 = "self.label_"+str(label_no)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 16777215))"
-		p10 = "self.label_"+str(label_no)+".setMinimumSize(QtCore.QSize("+str(t_width)+", 0))"
-		p4="self.label_"+str(label_no)+".setScaledContents(True)"
-		p11="self.label_"+str(label_no)+".setMouseTracking(True)"
-		p12 = "self.label_"+str(label_no)+".setAlignment(QtCore.Qt.AlignCenter)"
-		
-		exec (p1)
-		exec (p7)
-		exec (p5)
-		exec (p9)
-		exec (p10)
-		exec (p6)
-		exec (p11)
-		exec (p4)
-		exec (p12)
-		pgText = self.list2.item(pageNo_t).text()
-		if '.jpg' in pgText or '.png' in pgText:
-			command = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t]+" -O "+picn
-		else:
-			ka = Manga_Read(site)
-			imgUrl = ka.getPageImg(site,name,arrPage[pageNo_t]) 
-			del ka
-			command = "wget --user-agent="+'"'+hdr+'" '+imgUrl+" -O "+picn
-		#command = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t]+" -O "+picn
-		if not os.path.exists(picn):
-			self.infoWget(command)
-		else:
-			img1 = QtGui.QPixmap(picn, "1")
-			p7 = "self.label_"+str(label_no)+".setPixmap(img1)"
-			exec (p7)
-			p8 = "self.label_"+str(label_no)+".height()"
-			l_ht= eval(p8)
+		try:
+			downloadNext = 0
+			print (currentPage)
+			print (len(arrPage))
 			
-			picn_t = name + '-' + "chapter-" + chapterNo_n + "-page-" + jpgn1
-		
-			p1="self.label_text_"+str(label_no)+" = ExtendedQLabel(self.scrollAreaWidgetContents)"
+			val = t_ht+600
+			print ("val")
+			print (val)
+			#self.scrollArea.verticalScrollBar().setValue(self.scrollArea.verticalScrollBar().minimum())
+			#self.scrollArea.verticalScrollBar().setValue(int(val))
+			
+			series = name
+			#jpgn = (arrPage[pageNo_t].split('/')[-1]) 
+			jpgn = (urllib.parse.unquote(arrPage[pageNo_t])).split('/')[-1]
+			  #pgn = jpgn.split(".")[0]
+			jpgn1 = re.sub('.jpg|.png','',jpgn)
+			chapterNo_n = chapterNo.split('?')[0] 
+			if not chapterNo_n:
+					chapterNo_n = chapterNo
+			#picn = "/tmp/ReadManga/" + name + '-' + "chapter-" + chapterNo + "-page-" + jpgn
+			picn = "/tmp/ReadManga/"+name + '-' + "chapter-" + chapterNo_n + "-page-" + jpgn1
+			print (picn)
+			self.line2.clear()
+			self.line2.insert(str(jpgn1))
+			self.line3.clear()
+			self.line3.insert("chapter-"+chapterNo_n)
+			self.label3.setText(series)
+			  
+			p1="self.label_"+str(label_no)+" = ExtendedQLabel(self.scrollAreaWidgetContents)"
 			  #p7 = "l_"+str(i)+" = weakref.ref(self.label_"+str(i)+")"
-			p7 = "l_text_"+str(label_no)+" = weakref.ref(self.label_text_"+str(label_no)+")"  
-			p5="self.label_text_"+str(label_no)+".setObjectName(_fromUtf8("+'"'+"label_text_"+str(label_no)+'"'+"))"
-			p6="self.horizontalLayout.addWidget(self.label_text_"+str(label_no)+")"
-			p9 = "self.label_text_"+str(label_no)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 100))"
-			p4="self.label_text_"+str(label_no)+".setText(picn_t)"
-			p2 = "self.label_text_"+str(label_no)+".setAlignment(QtCore.Qt.AlignCenter)"
+			p7 = "l_"+str(label_no)+" = weakref.ref(self.label_"+str(label_no)+")"  
+			p5="self.label_"+str(label_no)+".setObjectName(_fromUtf8("+'"'+"label_"+str(label_no)+'"'+"))"
+			p6="self.horizontalLayout.addWidget(self.label_"+str(label_no)+")"
+			#p9 = "self.label_"+str(label_no)+".setMaximumSize(QtCore.QSize(800, 16777215))"
+			p9 = "self.label_"+str(label_no)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 16777215))"
+			p10 = "self.label_"+str(label_no)+".setMinimumSize(QtCore.QSize("+str(t_width)+", 0))"
+			p4="self.label_"+str(label_no)+".setScaledContents(True)"
+			p11="self.label_"+str(label_no)+".setMouseTracking(True)"
+			p12 = "self.label_"+str(label_no)+".setAlignment(QtCore.Qt.AlignCenter)"
+			
 			exec (p1)
 			exec (p7)
 			exec (p5)
 			exec (p9)
+			exec (p10)
 			exec (p6)
-			  
+			exec (p11)
 			exec (p4)
-			exec (p2)
-			
-			print (l_ht)
-			t_ht = self.scrollAreaWidgetContents.height()
-			print (t_ht)
-			
-			downloadNext = 1
-			label_no = label_no+1
-			
-		if pageNo_t+1 < len(arrPage): 
-			#jpgn_n = (arrPage[pageNo_t+1].split('/')[-1])
-			jpgn_n = (urllib.parse.unquote(arrPage[pageNo_t+1])).split('/')[-1]
-			jpgn_n = re.sub('.jpg|.png','',jpgn_n)
-			chapterNo_n = chapterNo.split('?')[0]
-			if not chapterNo_n:
-				chapterNo_n = chapterNo 
-			picn1 = "/tmp/ReadManga/" + name + '-' + "chapter-" + chapterNo_n + "-page-" + jpgn_n
-			pgText = self.list2.item(pageNo_t+1).text()
+			exec (p12)
+			pgText = self.list2.item(pageNo_t).text()
 			if '.jpg' in pgText or '.png' in pgText:
-				command1 = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t+1]+" -O "+picn1
+				command = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t]+" -O "+picn
 			else:
 				ka = Manga_Read(site)
-				imgUrl = ka.getPageImg(site,name,arrPage[pageNo_t+1]) 
+				imgUrl = ka.getPageImg(site,name,arrPage[pageNo_t]) 
 				del ka
-				command1 = "wget --user-agent="+'"'+hdr+'" '+imgUrl+" -O "+picn1
-			if not os.path.exists(picn1):
-				self.getNextScrolledPage(command1)
-		else:
-			row = self.list1.currentRow()
-			self.list1.setCurrentRow(row+1)
-			pageNo = -1
-			#label_no = 0
-			nam = self.list1.currentItem().text()
-			nam = str(nam)
-			chapterNo = nam
-			chapterNo_n = chapterNo.split('?')[0] 
-			if not chapterNo_n:
-				chapterNo_n = chapterNo
-			ka=Manga_Read(site)
-			nxt=ka.getPage(site,name,nam)
-			del ka
-			self.list2.clear()
-			arrPage[:]=[]
-			for i in nxt:
-				arrPage.append(i)
-				self.list2.addItem(i.split('/')[-1])
-			#jpgn_n = (arrPage[0].split('/')[-1])
-			jpgn_n = (urllib.parse.unquote(arrPage[0])).split('/')[-1]
-			jpgn_n = re.sub('.jpg|.png','',jpgn_n)
-			picn1 = "/tmp/ReadManga/" + name + '-' + "chapter-" + chapterNo_n + "-page-" + jpgn_n
-			pgText = self.list2.item(0).text()
-			if '.jpg' in pgText or '.png' in pgText:
-				command1 = "wget --user-agent="+'"'+hdr+'" '+arrPage[0]+" -O "+picn1
+				command = "wget --user-agent="+'"'+hdr+'" '+imgUrl+" -O "+picn
+			#command = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t]+" -O "+picn
+			if not os.path.exists(picn):
+				self.infoWget(command)
 			else:
-				ka = Manga_Read(site)
-				imgUrl = ka.getPageImg(site,name,arrPage[0]) 
+				img1 = QtGui.QPixmap(picn, "1")
+				p7 = "self.label_"+str(label_no)+".setPixmap(img1)"
+				exec (p7)
+				p8 = "self.label_"+str(label_no)+".height()"
+				l_ht= eval(p8)
+				
+				picn_t = name + '-' + "chapter-" + chapterNo_n + "-page-" + jpgn1
+			
+				p1="self.label_text_"+str(label_no)+" = ExtendedQLabel(self.scrollAreaWidgetContents)"
+				  #p7 = "l_"+str(i)+" = weakref.ref(self.label_"+str(i)+")"
+				p7 = "l_text_"+str(label_no)+" = weakref.ref(self.label_text_"+str(label_no)+")"  
+				p5="self.label_text_"+str(label_no)+".setObjectName(_fromUtf8("+'"'+"label_text_"+str(label_no)+'"'+"))"
+				p6="self.horizontalLayout.addWidget(self.label_text_"+str(label_no)+")"
+				p9 = "self.label_text_"+str(label_no)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 100))"
+				p4="self.label_text_"+str(label_no)+".setText(picn_t)"
+				p2 = "self.label_text_"+str(label_no)+".setAlignment(QtCore.Qt.AlignCenter)"
+				exec (p1)
+				exec (p7)
+				exec (p5)
+				exec (p9)
+				exec (p6)
+				  
+				exec (p4)
+				exec (p2)
+				
+				print (l_ht)
+				t_ht = self.scrollAreaWidgetContents.height()
+				print (t_ht)
+				
+				downloadNext = 1
+				label_no = label_no+1
+				
+			if pageNo_t+1 < len(arrPage): 
+				#jpgn_n = (arrPage[pageNo_t+1].split('/')[-1])
+				jpgn_n = (urllib.parse.unquote(arrPage[pageNo_t+1])).split('/')[-1]
+				jpgn_n = re.sub('.jpg|.png','',jpgn_n)
+				chapterNo_n = chapterNo.split('?')[0]
+				if not chapterNo_n:
+					chapterNo_n = chapterNo 
+				picn1 = "/tmp/ReadManga/" + name + '-' + "chapter-" + chapterNo_n + "-page-" + jpgn_n
+				pgText = self.list2.item(pageNo_t+1).text()
+				if '.jpg' in pgText or '.png' in pgText:
+					command1 = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t+1]+" -O "+picn1
+				else:
+					ka = Manga_Read(site)
+					imgUrl = ka.getPageImg(site,name,arrPage[pageNo_t+1]) 
+					del ka
+					command1 = "wget --user-agent="+'"'+hdr+'" '+imgUrl+" -O "+picn1
+				if not os.path.exists(picn1):
+					self.getNextScrolledPage(command1)
+			else:
+				row = self.list1.currentRow()
+				self.list1.setCurrentRow(row+1)
+				pageNo = -1
+				#label_no = 0
+				if self.list1.currentItem():
+					nam = self.list1.currentItem().text()
+				else:
+					self.list1.setCurrentRow(0)
+					nam = self.list1.currentItem().text()
+				nam = str(nam)
+				chapterNo = nam
+				chapterNo_n = chapterNo.split('?')[0] 
+				if not chapterNo_n:
+					chapterNo_n = chapterNo
+				ka=Manga_Read(site)
+				nxt=ka.getPage(site,name,nam)
 				del ka
-				command1 = "wget --user-agent="+'"'+hdr+'" '+imgUrl+" -O "+picn1
-			#command1 = "wget --user-agent="+'"'+hdr+'" '+arrPage[0]+" -O "+picn1
-			if not os.path.exists(picn1):
-				self.getNextScrolledPage(command1)
+				self.list2.clear()
+				arrPage[:]=[]
+				for i in nxt:
+					arrPage.append(i)
+					self.list2.addItem(i.split('/')[-1])
+				#jpgn_n = (arrPage[0].split('/')[-1])
+				jpgn_n = (urllib.parse.unquote(arrPage[0])).split('/')[-1]
+				jpgn_n = re.sub('.jpg|.png','',jpgn_n)
+				picn1 = "/tmp/ReadManga/" + name + '-' + "chapter-" + chapterNo_n + "-page-" + jpgn_n
+				pgText = self.list2.item(0).text()
+				if '.jpg' in pgText or '.png' in pgText:
+					command1 = "wget --user-agent="+'"'+hdr+'" '+arrPage[0]+" -O "+picn1
+				else:
+					ka = Manga_Read(site)
+					imgUrl = ka.getPageImg(site,name,arrPage[0]) 
+					del ka
+					command1 = "wget --user-agent="+'"'+hdr+'" '+imgUrl+" -O "+picn1
+				#command1 = "wget --user-agent="+'"'+hdr+'" '+arrPage[0]+" -O "+picn1
+				if not os.path.exists(picn1):
+					self.getNextScrolledPage(command1)
+		except:
+			pass
 		#QtGui.QApplication.processEvents()
 		
 
