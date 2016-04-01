@@ -32,6 +32,9 @@ from functools import partial
 from os.path import expanduser
 from Manga_Read import Manga_Read
 import weakref
+import imghdr
+from PIL import Image 
+import time
 
 class List3(QtGui.QListWidget):
 	def __init__(self, parent):
@@ -471,6 +474,7 @@ class Ui_MainWindow(object):
 		if site != "Source":
 			if not os.path.isdir(home+'/'+site):
 				os.makedirs(home+'/'+site)
+			self.selectHistory()
 	def arrow_hide(self):
 		self.scrollArea.setCursor(QtGui.QCursor(QtCore.Qt.BlankCursor))
 	def selectHistory(self):
@@ -495,21 +499,24 @@ class Ui_MainWindow(object):
 		#wget.waitForReadyRead()
 		a = str(p.readAllStandardOutput()).strip()
 		#print a
-		if "Length:" in a:
-			l = re.findall('[(][^)]*[)]',a)
-			if l:
-				sizeFile = l[0]
-		if "%" in a:
-			m = re.findall('[0-9][^\n]*',a)
-			if m:
-				#print m[0]
-				n = re.findall('[^%]*',m[0])
-				if n:
-					val = int(n[0])
-					self.progress.setValue(val)
-				out = str(m[0])+" "+sizeFile +"(Loading Page Wait!)"
-				#self.goto_epn.setText(out)
-				self.progress.setFormat(out)
+		try:
+			if "Length:" in a:
+				l = re.findall('[(][^)]*[)]',a)
+				if l:
+					sizeFile = l[0]
+			if "%" in a:
+				m = re.findall('[0-9][^\n]*',a)
+				if m:
+					#print m[0]
+					n = re.findall('[^%]*',m[0])
+					if n:
+						val = int(n[0])
+						self.progress.setValue(val)
+					out = str(m[0])+" "+sizeFile +"(Loading Page Wait!)"
+					#self.goto_epn.setText(out)
+					self.progress.setFormat(out)
+		except:
+			pass
 		  
 	
     			
@@ -703,9 +710,30 @@ class Ui_MainWindow(object):
 			del ka
 			command = "wget --user-agent="+'"'+hdr+'" '+imgUrl+" -O "+picn
 		#command = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t]+" -O "+picn
+		if os.path.exists(picn):
+			img_type = imghdr.what(picn)
+		else:
+			img_type = 'jpeg'
 		if not os.path.exists(picn):
 			self.infoWget(command)
+		elif (os.path.exists(picn) and (img_type!='jpeg' and img_type!='png' and img_type != 'gif')):
+			self.infoWget(command)
+			print('---Image Downloading Again---')
 		else:
+			img_err = True
+			load_try = 0
+			while(img_err and load_try < 20):
+				try:
+					im = Image.open(picn)
+					im.verify()
+					im = Image.open(picn)
+					im.load()
+					img_err = False
+				except:
+					img_err = True
+					print('---Reloading Corrupt Image--')
+				time.sleep(0.2)
+				load_try = load_try + 1
 			img1 = QtGui.QPixmap(picn, "1")
 			p7 = "self.label_"+str(label_no)+".setPixmap(img1)"
 			exec (p7)

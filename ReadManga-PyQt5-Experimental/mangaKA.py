@@ -32,6 +32,9 @@ from functools import partial
 from os.path import expanduser
 from Manga_Read import Manga_Read
 import weakref
+import imghdr
+from PIL import Image 
+import time
 
 class List3(QtWidgets.QListWidget):
 	def __init__(self, parent):
@@ -118,6 +121,7 @@ class ExtendedQLabel(QtWidgets.QLabel):
 				print ("Exists")
 			
 		else:
+			index = pageNo
 			subprocess.Popen(["killall","wget"])
 			ep1 = picn.split('-')[-1]
 			if '.html' in ep1:
@@ -139,17 +143,40 @@ class ExtendedQLabel(QtWidgets.QLabel):
 			#ui.infoWget(command)
 			pgText = ui.list2.item(index).text()
 			if '.jpg' in pgText or '.png' in pgText:
-				subprocess.Popen(["wget", "-c","--user-agent="+'"'+hdr+'"',arrPage[index],"-O",picn])
+				subprocess.call(["wget", "-c","--user-agent="+'"'+hdr+'"',arrPage[index],"-O",picn])
 			else:
 				ka = Manga_Read(site)
 				imgUrl = ka.getPageImg(site,name,arrPage[index]) 
 				del ka
-				subprocess.Popen(["wget","-c","--user-agent="+'"'+hdr+'"',imgUrl,"-O",picn])
-			
+				subprocess.call(["wget","-c","--user-agent="+'"'+hdr+'"',imgUrl,"-O",picn])
+			if os.path.exists(picn):
+				img1 = QtGui.QPixmap(picn, "1")
+				print (t)
+				self.setPixmap(img1)
+				print ("Exists")
 		
 		QtWidgets.QApplication.processEvents()
 		
-	
+	def keyPressEvent(self, event):	
+		global frame_toggle,name,label_no,chapterNo,arrPage,pageNo,label_no,t_width,scale_width
+		if event.key() == QtCore.Qt.Key_Delete:
+			t=str(self.objectName())
+			print (t)
+			if 'label_text_' in t:
+				t1 = re.sub('label_text_','',t)
+			else:
+				t1 = re.sub('label_','',t)
+			num = int(t1)
+			print (num)
+			print (self.text())
+			p7 = "ui.label_text_"+str(num)+".text()"
+			epn=eval(p7)
+			print (epn)
+			picn = "/tmp/ReadManga/"+str(epn)
+			if os.path.exists(picn):
+				os.remove(picn)
+				print(picn+' Removed')
+			
 
 class MyScrollArea(QtWidgets.QScrollArea):
 	def __init__(self, parent):
@@ -479,6 +506,7 @@ class Ui_MainWindow(object):
 		if site != "Source":
 			if not os.path.isdir(home+'/'+site):
 				os.makedirs(home+'/'+site)
+			self.selectHistory()
 	def arrow_hide(self):
 		self.scrollArea.setCursor(QtGui.QCursor(QtCore.Qt.BlankCursor))
 	def selectHistory(self):
@@ -653,9 +681,8 @@ class Ui_MainWindow(object):
 
 
 	def hello(self,pageNo_t): 
-		global base_url,nextp,prevp,download,nextp_fetched,picn,chapterNo,pgn,series,hdr,arrPage,currentPage,arrReference,downloadNext,label_no,t_ht,arrPage,pageNo,t_width,site
+			global base_url,nextp,prevp,download,nextp_fetched,picn,chapterNo,pgn,series,hdr,arrPage,currentPage,arrReference,downloadNext,label_no,t_ht,arrPage,pageNo,t_width,site
 		
-		try:
 			downloadNext = 0
 			print (currentPage)
 			print (len(arrPage))
@@ -713,9 +740,30 @@ class Ui_MainWindow(object):
 				del ka
 				command = "wget --user-agent="+'"'+hdr+'" '+imgUrl+" -O "+picn
 			#command = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t]+" -O "+picn
+			if os.path.exists(picn):
+				img_type = imghdr.what(picn)
+			else:
+				img_type = 'jpeg'
 			if not os.path.exists(picn):
 				self.infoWget(command)
+			elif (os.path.exists(picn) and (img_type!='jpeg' and img_type!='png' and img_type != 'gif')):
+				self.infoWget(command)
+				print('---Image Downloading Again---')
 			else:
+				img_err = True
+				load_try = 0
+				while(img_err and load_try < 20):
+					try:
+						im = Image.open(picn)
+						im.verify()
+						im = Image.open(picn)
+						im.load()
+						img_err = False
+					except:
+						img_err = True
+						print('---Reloading Corrupt Image--')
+					time.sleep(0.2)
+					load_try = load_try + 1
 				img1 = QtGui.QPixmap(picn, "1")
 				p7 = "self.label_"+str(label_no)+".setPixmap(img1)"
 				exec (p7)
@@ -740,12 +788,12 @@ class Ui_MainWindow(object):
 				  
 				exec (p4)
 				exec (p2)
-				
 				print (l_ht)
 				t_ht = self.scrollAreaWidgetContents.height()
 				print (t_ht)
 				
 				downloadNext = 1
+				#if not img_err:
 				label_no = label_no+1
 				
 			if pageNo_t+1 < len(arrPage): 
@@ -804,8 +852,6 @@ class Ui_MainWindow(object):
 				#command1 = "wget --user-agent="+'"'+hdr+'" '+arrPage[0]+" -O "+picn1
 				if not os.path.exists(picn1):
 					self.getNextScrolledPage(command1)
-		except:
-			pass
 		#QtGui.QApplication.processEvents()
 		
 
@@ -996,6 +1042,7 @@ if __name__ == "__main__":
 	download = 0
 	base_url = ""
 	wget = ""
+	site = ''
 	home = expanduser("~")
 	home = home+"/.config/ReadMangaKA"
 	app = QtWidgets.QApplication(sys.argv)

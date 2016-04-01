@@ -393,12 +393,12 @@ class Manga_Read():
 			
 			content = ccurl(url)
 			soup = BeautifulSoup(content)
-			
-			m = re.findall('push[(]"http://[^"]*.jpg|push[(]"http://[^"]*.png|push[(]"https://[^"]*.jpg|push[(]"https://[^"]*.png',content)
+			m = re.findall('push[(]"http://[^"]*.jpg[^"]*|push[(]"http://[^"]*.png[^"]*|push[(]"https://[^"]*.jpg[^"]*|push[(]"https://[^"]*.png[^"]*',content)
 			#print m
 			arr = []
 			for i in m:
 				i = re.sub('push[(]"','',i)
+				i = re.sub('"','',i)
 				arr.append(i)
 			return arr
 		elif site == "GoodManga":
