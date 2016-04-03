@@ -973,6 +973,19 @@ class Ui_MainWindow(object):
 	  
 	def setchapter2(self):
 		global name,base_url,chapterNo,nam,arrPage,pageNo,label_no
+		i = 0
+		while(i<label_no):
+			try:
+				t = "ui.label_"+str(i)+".deleteLater()"
+
+				exec (t)
+				t = "ui.label_text_"+str(i)+".deleteLater()"
+
+				exec (t)
+			except:
+				pass
+			i = i+1
+		label_no = 0
 		pageNo = self.list2.currentRow()
 		#label_no = pageNo
 		ui.hello(pageNo)

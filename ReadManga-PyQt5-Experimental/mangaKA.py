@@ -192,34 +192,46 @@ class MyScrollArea(QtWidgets.QScrollArea):
 			t_width = str(self.width())
 			print (t_width)
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(t_width)+", 0))"
-				exec (p9)
-				exec (p10)
+				try:
+					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 16777215))"
+					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(t_width)+", 0))"
+					exec (p9)
+					exec (p10)
+				except:
+					pass
 		elif event.key() == QtCore.Qt.Key_O:
 			t_width = str(900)
 			print (t_width)
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(t_width)+", 0))"
-				exec (p9)
-				exec (p10)
+				try:
+					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 16777215))"
+					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(t_width)+", 0))"
+					exec (p9)
+					exec (p10)
+				except:
+					pass
 		elif event.key() == QtCore.Qt.Key_Equal:
 			scale_width = scale_width + (scale_width * 0.1)
 			t_width = scale_width
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(scale_width)+", 0))"
-				exec (p9)
-				exec (p10)
+				try:
+					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(scale_width)+", 0))"
+					exec (p9)
+					exec (p10)
+				except:
+					pass
 		elif event.key() == QtCore.Qt.Key_Minus:
 			scale_width = scale_width - (scale_width * 0.1)
 			t_width = scale_width
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(scale_width)+", 0))"
-				exec (p9)
-				exec (p10)
+				try:
+					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(scale_width)+", 0))"
+					exec (p9)
+					exec (p10)
+				except:
+					pass
 		elif event.key() == QtCore.Qt.Key_Left:
 			pageNo = pageNo - 1
 			ui.hello(pageNo)
@@ -731,7 +743,10 @@ class Ui_MainWindow(object):
 			exec (p11)
 			exec (p4)
 			exec (p12)
-			pgText = self.list2.item(pageNo_t).text()
+			try:
+				pgText = self.list2.item(pageNo_t).text()
+			except:
+				pgText = '/tmp/1.jpg'
 			if '.jpg' in pgText or '.png' in pgText:
 				command = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t]+" -O "+picn
 			else:
@@ -815,6 +830,20 @@ class Ui_MainWindow(object):
 				if not os.path.exists(picn1):
 					self.getNextScrolledPage(command1)
 			else:
+				i = 0
+				while(i<label_no-1):
+					try:
+						t = "ui.label_"+str(i)+".deleteLater()"
+
+						exec (t)
+						t = "ui.label_text_"+str(i)+".deleteLater()"
+
+						exec (t)
+					except:
+						pass
+					i = i+1
+				#label_no_start = label_no
+				label_no = label_no + 1
 				row = self.list1.currentRow()
 				self.list1.setCurrentRow(row+1)
 				pageNo = -1
@@ -852,6 +881,7 @@ class Ui_MainWindow(object):
 				#command1 = "wget --user-agent="+'"'+hdr+'" '+arrPage[0]+" -O "+picn1
 				if not os.path.exists(picn1):
 					self.getNextScrolledPage(command1)
+				self.scrollArea.verticalScrollBar().setValue(self.scrollArea.verticalScrollBar().minimum())
 		#QtGui.QApplication.processEvents()
 		
 
@@ -967,12 +997,15 @@ class Ui_MainWindow(object):
 		#label_no = pageNo
 		i = 0
 		while(i<label_no):
-			t = "ui.label_"+str(i)+".deleteLater()"
+			try:
+				t = "ui.label_"+str(i)+".deleteLater()"
 
-			exec (t)
-			t = "ui.label_text_"+str(i)+".deleteLater()"
+				exec (t)
+				t = "ui.label_text_"+str(i)+".deleteLater()"
 
-			exec (t)
+				exec (t)
+			except:
+				pass
 			i = i+1
 		label_no = 0
 		nam = self.list1.currentItem().text()
@@ -1010,6 +1043,19 @@ class Ui_MainWindow(object):
 	  
 	def setchapter2(self):
 		global name,base_url,chapterNo,nam,arrPage,pageNo,label_no
+		i = 0
+		while(i<label_no):
+			try:
+				t = "ui.label_"+str(i)+".deleteLater()"
+
+				exec (t)
+				t = "ui.label_text_"+str(i)+".deleteLater()"
+
+				exec (t)
+			except:
+				pass
+			i = i+1
+		label_no = 0
 		pageNo = self.list2.currentRow()
 		#label_no = pageNo
 		ui.hello(pageNo)
