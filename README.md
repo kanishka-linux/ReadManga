@@ -5,9 +5,21 @@ Therefore, before using this application please check the copyright and licensin
 
 (Arch users can directly go to Release section or Package Folder,download appropriate pkg.tar.xz package and install it using 'sudo pacman -U pkg_name')
 
-(Ubuntu or Debian based distro users can also go to Release section or Package folder,download appropriate .deb package and install it using 'sudo gdebi pkg_name.deb' )
+(Ubuntu or Debian based distro users can also go to Release section or Package folder,download appropriate .deb package and install it using 'sudo gdebi pkg_name.deb'. If gdebi is not installed then install it using 'sudo apt-get install gdebi' )
 
 (If You've Already installed application using common method and now want to re-install it again using either .deb and .pkg.tar.xz or you want to try PyQt5 version, then first remove readmanga.desktop file located in '~/.local/share/applications/' and also remove config directory '~/.config/ReadMangaKA/src/')
+
+#Update ReadManga-2.0.0-1
+
+1. 'phantomjs' no longer required. The reader has it's version of headless browser with javascript support.
+
+2. 'wget' no longer required
+
+3. Proper implementation of multithreading, so as to allow proper pre-fetching of next page. As a result flow of reading will not interrupt as long as next page is available at the source site and your internet connection is neither down nor slow. {If your internet connection is slow or the source site is slow then you might have to wait after end of the page for the next page to show up.}
+
+4. Corrupt or Half downloaded pages will be reloaded automatically, if they are available at later time.
+
+5. Right, Left arrow key for navigating previous and next page, using these keys will free up the memory consumed by previous pages. Useful for low RAM machines. You can also use these keys after long reading session in order to free up the memory and delete previously accessed pages.
 
 #Screenshot
 ![ReadManga](/Images/sample.png)
@@ -53,9 +65,9 @@ python-psutil
 
 curl
 
-wget
+wget {Not Required for version >= 2.0.0-1}
 
-phantomjs
+phantomjs {Not Required for version >= 2.0.0-1}
 
 #Dependencies installation in arch (Stable Version).
 
@@ -100,7 +112,7 @@ If you do not find application launcher in the menu then try copying manually "~
 
 In LXDE, XFCE or Cinnamon ,any new entry of launcher in '~/.local/share/applications/' is instantly shown in Start Menu (In this case, entry will be shown either in Multimedia or Sound & Video). In Ubuntu Unity you will have to either logout and login again or reboot to see the entry in Unity dash Menu.
 
-
+If some source sites are not working then try clearing the cache directory '/tmp/ReadManga/' and relaunch the application.
 
 
 
@@ -127,6 +139,10 @@ p:   show/hide side bar or option bar
 
 'Right' : load next page (Normally no need to use it, if you are using down key. But sometimes it is useful when 'Down' key does not lead to next page)
 
+'Left' : load previous page
+
+{using Left and Right arrow key will delete previously accessed pages and clear up the memory}
+
 'i' : show mouse pointer in fullscreen mode for few seconds { useful in fullscreen mode to reload image by clicking it, when mouse pointer is hidden}
 
 Delete : Delete appropriate entry in the history/search column
@@ -135,6 +151,6 @@ If incomplete image gets loaded then simply click on the image to reload it agai
 
 #Note: 
 
-1. Once a page is ended, By simply pressing 'Down' key, next page is loaded automatically. It means new page is created on the fly dynamically. It does not remove previous pages and all the visited pages are kept in memory for later reference, which one can access via 'Up' or 'Down' key. Therefore, it is possible that if you've accessed large number of pages in one single session, then RAM of your system might get full, if your system has less memory. In order to free up the memory double click on the required 'chapter' of the 'Chapters' Tab of Option/Side-bar. When you select new manga then memory occupied by earlier manga is freed automatically. Alternatively, you can simply close the application to free up the memory.
+1. Once a page is ended, By simply pressing 'Down' key, next page is loaded automatically. It means new page is created on the fly dynamically. It does not remove previous pages and all the visited pages are kept in memory for later reference, which one can access via 'Up' or 'Down' key. Therefore, it is possible that if you've accessed large number of pages in one single session, then RAM of your system might get full, if your system has less memory. In order to free up the memory double click on the required 'chapter' of the 'Chapters' Tab of Option/Side-bar or simply try using Left/Right arrow keys. When you select new manga then memory occupied by earlier manga is freed automatically. Alternatively, you can simply close the application to free up the memory.
  
 2. In this application '/tmp/ReadManga/' acts as cache folder. If images are not loading or search function is not working then try removing contents of cache folder or simply delete the cache folder manually itself and restart the application.

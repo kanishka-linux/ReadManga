@@ -1,5 +1,5 @@
 pkgname = ReadManga
-pkgver = 1.1.0-1
+pkgver = 2.0.0-1
 pkgdesc = Online Manga Reader
 arch = any
 license = GPL
@@ -14,5 +14,3 @@ depend = python-pip
 depend = python-pycurl
 depend = python-psutil
 depend = curl
-depend = wget
-depend = phantomjs

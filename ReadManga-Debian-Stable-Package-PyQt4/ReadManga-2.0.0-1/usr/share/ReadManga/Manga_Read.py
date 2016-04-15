@@ -41,7 +41,9 @@ from os import remove, close
 import fileinput
 import codecs
 import base64
-
+from headlessBrowser import BrowseUrl
+def cloudfare(url):
+	web = BrowseUrl(url)
 def getContentUnicode(content):
 	if isinstance(content,bytes):
 		print("I'm byte")
@@ -55,7 +57,7 @@ def getContentUnicode(content):
 		print("I'm unicode")
 	return content
 
-def cloudfare(url):
+def cloudfareOld(url):
 			home1 = expanduser("~")
 			pluginDir = "/usr/share/ReadManga/ka.js"
 			if os.path.exists(pluginDir):
@@ -86,25 +88,96 @@ def cloudfare(url):
 			f = open('/tmp/ReadManga/kcookieM.txt', 'w')
 			f.write(cookiefile)
 			f.close()
+
+
 def ccurl(url):
 	global hdr
 	hdr = 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:37.0) Gecko/20100101 Firefox/37.0'
-	
+	print(url)
 	c = pycurl.Curl()
-	c.setopt(c.USERAGENT, hdr)
-	if os.path.isfile('/tmp/ReadManga/kcookieM.txt'):
-		c.setopt(c.COOKIEFILE, '/tmp/ReadManga/kcookieM.txt')
+	
+	
+	curl_opt = ''
+	picn_op = ''
+	rfr = ''
+	nUrl = url
+	cookie_file = ''
+	if '#' in url:
+		curl_opt = nUrl.split('#')[1]
+		url = nUrl.split('#')[0]
+		if curl_opt == '-o':
+			picn_op = nUrl.split('#')[2]
+		elif curl_opt == '-Ie':
+			rfr = nUrl.split('#')[2]
+		elif curl_opt == '-Icb' or curl_opt == '-bc' or curl_opt == '-b' or curl_opt == '-Ib':
+			cookie_file = nUrl.split('#')[2]
 	url = str(url)
+	print(url,'----------url------')
 	c.setopt(c.URL, url)
-	#storage = StringIO()
 	storage = BytesIO()
-	c.setopt(c.WRITEFUNCTION, storage.write)
-	c.perform()
-	c.close()
-	content = storage.getvalue()
-	content = getContentUnicode(content)
-	return content
-
+	if curl_opt == '-o':
+		c.setopt(c.FOLLOWLOCATION, True)
+		c.setopt(c.USERAGENT, hdr)
+		f = open(picn_op,'wb')
+		c.setopt(c.WRITEDATA, f)
+		c.perform()
+		c.close()
+		f.close()
+	else:
+		if curl_opt == '-I':
+			c.setopt(c.FOLLOWLOCATION, True)
+			c.setopt(c.USERAGENT, hdr)
+			c.setopt(c.NOBODY, 1)
+			c.setopt(c.HEADERFUNCTION, storage.write)
+		elif curl_opt == '-Ie':
+			c.setopt(c.FOLLOWLOCATION, True)
+			c.setopt(c.USERAGENT, hdr)
+			c.setopt(pycurl.REFERER, rfr)
+			c.setopt(c.NOBODY, 1)
+			c.setopt(c.HEADERFUNCTION, storage.write)
+		elif curl_opt == '-IA':
+			c.setopt(c.FOLLOWLOCATION, True)
+			c.setopt(c.NOBODY, 1)
+			c.setopt(c.HEADERFUNCTION, storage.write)
+		elif curl_opt == '-Icb':
+			c.setopt(c.FOLLOWLOCATION, True)
+			c.setopt(c.USERAGENT, hdr)
+			c.setopt(c.NOBODY, 1)
+			c.setopt(c.HEADERFUNCTION, storage.write)
+			if os.path.exists(cookie_file):
+				os.remove(cookie_file)
+			c.setopt(c.COOKIEJAR,cookie_file)
+			c.setopt(c.COOKIEFILE,cookie_file)
+		elif curl_opt == '-Ib':
+			c.setopt(c.FOLLOWLOCATION, True)
+			c.setopt(c.USERAGENT, hdr)
+			c.setopt(c.NOBODY, 1)
+			c.setopt(c.HEADERFUNCTION, storage.write)
+			c.setopt(c.COOKIEFILE,cookie_file)
+		elif curl_opt == '-bc':
+			c.setopt(c.FOLLOWLOCATION, True)
+			c.setopt(c.USERAGENT, hdr)
+			c.setopt(c.WRITEDATA, storage)
+			c.setopt(c.COOKIEJAR,cookie_file)
+			c.setopt(c.COOKIEFILE,cookie_file)
+		elif curl_opt == '-b':
+			c.setopt(c.FOLLOWLOCATION, True)
+			c.setopt(c.USERAGENT, hdr)
+			c.setopt(c.WRITEDATA, storage)
+			c.setopt(c.COOKIEFILE,cookie_file)
+		elif curl_opt == '-L':
+			c.setopt(c.USERAGENT, hdr)
+			c.setopt(c.WRITEDATA, storage)
+		else:
+			c.setopt(c.FOLLOWLOCATION, True)
+			c.setopt(c.USERAGENT, hdr)
+			c.setopt(c.WRITEDATA, storage)
+		c.perform()
+		c.close()
+		content = storage.getvalue()
+		content = getContentUnicode(content)
+		return content
+		
 def progressBar(cmd):
 	MainWindow = QtGui.QWidget()
 	progress = QtGui.QProgressDialog("Please Wait!", "Cancel", 0, 100, MainWindow)
@@ -146,7 +219,7 @@ class Manga_Read():
 		self.hdr = 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:37.0) Gecko/20100101 Firefox/37.0'
 		if site == "KissManga":
 			if not os.path.isfile('/tmp/ReadManga/kcookieM.txt'):
-				cloudfare("url")
+				cloudfare("http://kissmanga.com")
 		else:
 			pass
 	def search(self,site,name):
@@ -154,7 +227,7 @@ class Manga_Read():
 				if name != '':
 					url = 'http://kissmanga.com/Search/Manga/?keyword=' + name
 					
-					content = ccurl(url)
+					content = ccurl(url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
 					print (content)
 					m = re.findall('/Manga/[^"]*', content)
 					#print m
@@ -225,7 +298,7 @@ class Manga_Read():
 		if site == "KissManga":
 			url = 'http://kissmanga.com/Manga/' + name
 			print (url)
-			content = ccurl(url)
+			content = ccurl(url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
 			f = open('/tmp/ReadManga/1.txt','w')
 			f.write(content)
 			f.close()
@@ -241,11 +314,10 @@ class Manga_Read():
 				#print 'Pic Name=' + jpgn
 				picn = '/tmp/ReadManga/' + name + '.jpg'
 				print (picn)
-				if img:
-					#img[0]=img[0].replace('kissanime.com','kissmanga.com')
-					print (img[0])
-				if not os.path.isfile(picn):
-					subprocess.call(['curl','-L','-b','/tmp/ReadManga/kcookieM.txt','-A',self.hdr,'-o',picn,img[0]])
+				#if img:
+				#	print (img[0])
+				#if not os.path.isfile(picn):
+				#	subprocess.call(['curl','-L','-b','/tmp/ReadManga/kcookieM.txt','-A',self.hdr,'-o',picn,img[0]])
 			except:
 				picn = '/tmp/ReadManga/' + name + '.jpg'
 			j = 0
@@ -391,9 +463,10 @@ class Manga_Read():
 			url = 'http://kissmanga.com/Manga/' + name + '/' + epn
 			print (url)
 			
-			content = ccurl(url)
+			content = ccurl(url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
 			soup = BeautifulSoup(content)
-			m = re.findall('push[(]"http://[^"]*.jpg[^"]*|push[(]"http://[^"]*.png[^"]*|push[(]"https://[^"]*.jpg[^"]*|push[(]"https://[^"]*.png[^"]*',content)
+			
+			m = re.findall('push[(]"http://[^"]*.jpg[^"]*|push[(]"http://[^"]*.png[^"]*|push[(]"https://[^"]*.jpg[^"]*|push[(]"https://[^"]*.png[^"]*|push[(]"http://[^"]*.JPG[^"]*|push[(]"http://[^"]*.PNG[^"]*|push[(]"https://[^"]*.JPG[^"]*|push[(]"https://[^"]*.PNG[^"]*',content)
 			#print m
 			arr = []
 			for i in m:
