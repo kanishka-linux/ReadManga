@@ -9,6 +9,10 @@ Therefore, before using this application please check the copyright and licensin
 
 (If You've Already installed application using common method and now want to re-install it again using either .deb and .pkg.tar.xz or you want to try PyQt5 version, then first remove readmanga.desktop file located in '~/.local/share/applications/' and also remove config directory '~/.config/ReadMangaKA/src/')
 
+#Update ReadManga-2.1.0-1
+
+1. 'python-requests' no longer required.
+
 #Update ReadManga-2.0.0-1
 
 1. 'phantomjs' no longer required. The reader has it's version of headless browser with javascript support.
@@ -47,7 +51,7 @@ python-pyqt4 {for stable ReadManga Application}
 
 python-pyqt5 (for experimental ReadManga-PyQt5 Application)
 
-python-requests
+python-requests {Not Required for version >= 2.1.0-1}
 
 python-urllib3
 

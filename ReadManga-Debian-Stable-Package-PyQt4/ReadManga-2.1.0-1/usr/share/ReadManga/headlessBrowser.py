@@ -6,7 +6,6 @@ import re
 import urllib
 import urllib3
 import time
-import requests
 import os
 import os.path
 import sys
