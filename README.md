@@ -127,23 +127,27 @@ First select 'Source' site. Then select either Search or History sub-option. If 
 #KeyBoard Shortcuts:
 
 
-f :  toggle fullscreen mode {In fullscreen mode mouse pointer hides automatically and can become visible for few seconds by pressing the key 'i'}
+f : toggle fullscreen mode {In fullscreen mode mouse pointer hides automatically and can become visible for few seconds by pressing the key 'i'}
 
-w:  fit to width
+w:  fit to width {aspect ratio as per the last visited image}
 
-o :  original size
+h:  fit to height {aspect ratio as per the last visited image} 
 
-'=': increase size of image by 0.1 factor
+o:  gets the original aspect ratio of last visited image, and sets same aspect ratio for all image.
 
-'-' : decrease size of image by 0.1 factor
+a:  show strictly original images with no scaling.
+
+'=': increase size of image by 0.01 factor by keeping aspect ratio constant.
+
+'-': decrease size of image by 0.01 factor by keeping aspect ratio constant.
 
 p:   show/hide side bar or option bar
 
 'Down' : Simply scroll down and auto-load next page once current page reaches it's end.
 
-'Right' : load next page (Normally no need to use it, if you are using down key. But sometimes it is useful when 'Down' key does not lead to next page)
+'ctrl+Right' : load next page (Normally no need to use it, if you are using down key. But sometimes it is useful when 'Down' key does not lead to next page)
 
-'Left' : load previous page
+'ctrl+Left' : load previous page
 
 {using Left and Right arrow key will delete previously accessed pages and clear up the memory}
 
@@ -155,6 +159,6 @@ If incomplete image gets loaded then simply click on the image to reload it agai
 
 #Note: 
 
-1. Once a page is ended, By simply pressing 'Down' key, next page is loaded automatically. It means new page is created on the fly dynamically. It does not remove previous pages and all the visited pages are kept in memory for later reference, which one can access via 'Up' or 'Down' key. Therefore, it is possible that if you've accessed large number of pages in one single session, then RAM of your system might get full, if your system has less memory. In order to free up the memory double click on the required 'chapter' of the 'Chapters' Tab of Option/Side-bar or simply try using Left/Right arrow keys. When you select new manga then memory occupied by earlier manga is freed automatically. Alternatively, you can simply close the application to free up the memory.
+1. Once a page is ended, By simply pressing 'Down' key, next page is loaded automatically. It means new page is created on the fly dynamically. It does not remove previous pages and all the visited pages are kept in memory for later reference, which one can access via 'Up' or 'Down' key. Therefore, it is possible that if you've accessed large number of pages in one single session, then RAM of your system might get full, if your system has less memory. In order to free up the memory double click on the required 'chapter' of the 'Chapters' Tab of Option/Side-bar or simply try using ctrl+Left/Right arrow keys. When you select new manga then memory occupied by earlier manga is freed automatically. Alternatively, you can simply close the application to free up the memory.
  
 2. In this application '/tmp/ReadManga/' acts as cache folder. If images are not loading or search function is not working then try removing contents of cache folder or simply delete the cache folder manually itself and restart the application.

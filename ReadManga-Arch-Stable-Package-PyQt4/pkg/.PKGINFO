@@ -1,5 +1,5 @@
 pkgname = ReadManga
-pkgver = 2.1.0-1
+pkgver = 2.2.0-1
 pkgdesc = Online Manga Reader
 arch = any
 license = GPL

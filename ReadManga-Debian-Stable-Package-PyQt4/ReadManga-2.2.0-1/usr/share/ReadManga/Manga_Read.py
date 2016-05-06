@@ -222,13 +222,25 @@ class Manga_Read():
 				cloudfare("http://kissmanga.com")
 		else:
 			pass
+	def ccurlN(self,content,url):
+		if 'checking_browser' in content:
+			if os.path.exists('/tmp/ReadManga/kcookieM.txt'):
+				os.remove('/tmp/ReadManga/kcookieM.txt')
+				if '#' in url:
+					url1 = url.split('#')[0]
+					cloudfare(url1)
+			content = ccurl(url)
+		return content
+		
 	def search(self,site,name):
 			if site == "KissManga":
 				if name != '':
 					url = 'http://kissmanga.com/Search/Manga/?keyword=' + name
 					
 					content = ccurl(url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
+					content = self.ccurlN(content,url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
 					print (content)
+					
 					m = re.findall('/Manga/[^"]*', content)
 					#print m
 					m = list(set(m))
@@ -299,10 +311,11 @@ class Manga_Read():
 			url = 'http://kissmanga.com/Manga/' + name
 			print (url)
 			content = ccurl(url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
+			content = self.ccurlN(content,url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
 			f = open('/tmp/ReadManga/1.txt','w')
 			f.write(content)
 			f.close()
-			epl = re.findall('/Manga/' + name + '[^"]*?id[^"]*', content)
+			epl = re.findall('/Manga/' + name + '[^"]*["?"]id[^"]*', content)
 			#if not epl:
 			#	epl = re.findall('[^"]*?id=[^"]*', content)
 			try:
@@ -464,6 +477,7 @@ class Manga_Read():
 			print (url)
 			
 			content = ccurl(url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
+			content = self.ccurlN(content,url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
 			soup = BeautifulSoup(content)
 			
 			m = re.findall('push[(]"http://[^"]*.jpg[^"]*|push[(]"http://[^"]*.png[^"]*|push[(]"https://[^"]*.jpg[^"]*|push[(]"https://[^"]*.png[^"]*|push[(]"http://[^"]*.JPG[^"]*|push[(]"http://[^"]*.PNG[^"]*|push[(]"https://[^"]*.JPG[^"]*|push[(]"https://[^"]*.PNG[^"]*',content)

@@ -293,50 +293,222 @@ class MyScrollArea(QtGui.QScrollArea):
 		global frame_toggle
 		frame_toggle = 0
 	
+	def scale_content(self):
+		global frame_toggle,name,label_no,chapterNo,arrPage,pageNo,label_no,t_width,scale_width,scale_height,strict_original
+		strict_original = False
+		for i in range(label_no):
+			
+			
+			
+			
+			p10 = "ui.label_"+str(i)+".setScaledContents(True)"
+			exec (p10)
+			p11 = "ui.label_text_"+str(i)+".setScaledContents(True)"
+			exec (p11)
+			
+			
+	
+	def find_size(self):
+		global frame_toggle,name,label_no,chapterNo,arrPage,pageNo,label_no,t_width,scale_width,scale_height
+		p7 = "ui.label_text_"+str(label_no-1)+".text()"
+		try:
+			epn=eval(p7)
+			print (epn)
+			picn = "/tmp/ReadManga/"+str(epn)
+			if os.path.exists(picn):
+				im = Image.open(picn)
+				sz = im.size
+				t_width = str(sz[0])
+				scale_width = sz[0]
+				scale_height = sz[1]
+				print('---original dimensions----',sz)
+		except:
+			t_width = str(900)
+			scale_width = t_width
+			scale_height = 0
 	def keyPressEvent(self, event):
-		global frame_toggle,name,label_no,chapterNo,arrPage,pageNo,label_no,t_width,scale_width
+		global frame_toggle,name,label_no,chapterNo,arrPage,pageNo,label_no,t_width,scale_width,scale_height,strict_original
 		#if event.key() == QtCore.Qt.Key_Right:
 		#    ui.hello(pageNo)
-		if event.key() == QtCore.Qt.Key_W:
+		if event.modifiers() == QtCore.Qt.ShiftModifier and event.key() == QtCore.Qt.Key_W:
+			if strict_original:
+				self.scale_content()
 			t_width = str(self.width())
-			print (t_width)
+			wd = int(t_width)
+			scale_width = wd
+			sz = str(scale_width)+','+str(scale_height)
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(t_width)+", 0))"
+				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
+				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
 				exec (p9)
 				exec (p10)
+				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
+				exec (p11)
+			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			ui.scrollArea.verticalScrollBar().setValue(total_height)
+		elif event.key() == QtCore.Qt.Key_W:
+			if strict_original:
+				self.scale_content()
+			t_width = str(self.width())
+			wd = int(t_width)
+			self.find_size()
+			
+			sw = int(scale_width)
+			sh = int(scale_height)
+			print(scale_width,scale_height)
+			if wd > sw:
+				d = (wd - sw)/(sw)
+				scale_width = wd
+				scale_height = scale_height + (scale_height*d)
+				print(scale_width,scale_height)
+			elif wd < sw:
+				d = (sw-wd)/(sw)
+				scale_width = wd
+				scale_height = scale_height - (scale_height*d)
+			sz = str(scale_width)+','+str(scale_height)
+			print (t_width)
+			for i in range(label_no):
+				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
+				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
+				exec (p9)
+				exec (p10)
+				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
+				exec (p11)
+				QtGui.QApplication.processEvents()
+			
+			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			ui.scrollArea.verticalScrollBar().setValue(total_height)
+			QtGui.QApplication.processEvents()
+		elif event.key() == QtCore.Qt.Key_H:
+			if strict_original:
+				self.scale_content()
+			ht = int(self.height())
+			self.find_size()
+			
+			sw = int(scale_width)
+			sh = int(scale_height)
+			print(scale_width,scale_height)
+			if ht < sh:
+				d = (sh-ht)/(sh)
+				scale_height = ht
+				scale_width = scale_width - (scale_width*d)
+				print(scale_width,scale_height)
+			elif ht > sh:
+				d = (ht-sh)/(sh)
+				scale_height = ht
+				scale_width = scale_width + (scale_width*d)
+			sz = str(scale_width)+','+str(scale_height)
+			print ('--height--',ht)
+			print ('--new_size--',sz)
+			for i in range(label_no):
+				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
+				exec (p9)
+				exec (p10)
+				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+				exec (p11)
+			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			ui.scrollArea.verticalScrollBar().setValue(total_height)
 		elif event.key() == QtCore.Qt.Key_O:
-			t_width = str(900)
+			if strict_original:
+				self.scale_content()
+			self.find_size()
+			sz = str(scale_width)+','+str(scale_height)
 			print (t_width)
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(t_width)+", 0))"
+				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
 				exec (p9)
 				exec (p10)
+				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+				exec (p11)
+			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			ui.scrollArea.verticalScrollBar().setValue(total_height)
 		elif event.key() == QtCore.Qt.Key_Equal:
-			scale_width = scale_width + (scale_width * 0.1)
+			if strict_original:
+				self.scale_content()
+			if not scale_height:
+				self.find_size()
+			
+			scale_width = scale_width + (scale_width * 0.01)
+			scale_height = scale_height + (scale_height * 0.01)
 			t_width = scale_width
+			sz = str(scale_width)+','+str(scale_height)
 			for i in range(label_no):
 				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(scale_width)+", 0))"
+				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
 				exec (p9)
 				exec (p10)
+				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+				exec (p11)
+			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			ui.scrollArea.verticalScrollBar().setValue(total_height)
 		elif event.key() == QtCore.Qt.Key_Minus:
-			scale_width = scale_width - (scale_width * 0.1)
+			if strict_original:
+				self.scale_content()
+				
+			if not scale_height:
+				self.find_size()
+			
+			scale_width = scale_width - (scale_width * 0.01)
+			scale_height = scale_height - (scale_height * 0.01)
 			t_width = scale_width
+			sz = str(scale_width)+','+str(scale_height)
 			for i in range(label_no):
 				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+str(scale_width)+", 0))"
+				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
 				exec (p9)
 				exec (p10)
+				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+				exec (p11)
+			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			ui.scrollArea.verticalScrollBar().setValue(total_height)
 			#elif event.key() == QtCore.Qt.Key_Left:
 			#pageNo = pageNo - 1
 			#ui.hello(pageNo)
+		elif event.key() == QtCore.Qt.Key_A:
+			
+			if not strict_original:
+				strict_original = True
+				for i in range(label_no):
+					p10 = "ui.label_"+str(i)+".setScaledContents(False)"
+					exec (p10)
+					p11 = "ui.label_text_"+str(i)+".setScaledContents(False)"
+					exec (p11)
+					
+					
+					p7 = "ui.label_text_"+str(i)+".text()"
+					try:
+						epn=eval(p7)
+						print (epn)
+						picn = "/tmp/ReadManga/"+str(epn)
+						if os.path.exists(picn):
+							im = Image.open(picn)
+							sz = im.size
+							wd = sz[0]
+							ht = sz[1]
+							print('---original dimensions----',sz)
+					except:
+						wd = 900
+						ht = 0
+					sz = str(int(wd))+','+str(int(ht))
+					
+					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+sz+"))"
+					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
+					exec (p9)
+					exec (p10)
+					p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+sz+"))"
+					exec (p11)
+			
+					
+			print ('---------strict_original--------',strict_original)
+			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			ui.scrollArea.verticalScrollBar().setValue(total_height)
 		elif event.key() == QtCore.Qt.Key_1:
 			view_mode = 0
 		elif event.key() == QtCore.Qt.Key_2:
 			view_mode = 1
-		elif event.key() == QtCore.Qt.Key_Left:
+		elif event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Left:
 			r = ui.list2.currentRow()
 			if len(ui.downloadWget) == 0:
 				if r > 0:
@@ -348,7 +520,7 @@ class MyScrollArea(QtGui.QScrollArea):
 					r = 0
 					ui.list2.setCurrentRow(r)
 					ui.setchapter2()
-		elif event.key() == QtCore.Qt.Key_Right:
+		elif event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Right:
 			#ui.hello(pageNo)
 			#view_mode = 1
 			r = ui.list2.currentRow()
@@ -686,19 +858,21 @@ class Ui_MainWindow(object):
 
 
 	def createLabel(self,picN,num):
-		global base_url,nextp,prevp,download,nextp_fetched,picn,chapterNo,pgn,series,hdr,arrPage,currentPage,arrReference,downloadNext,label_no,t_ht,arrPage,pageNo,t_width,site
+		global base_url,nextp,prevp,download,nextp_fetched,picn,chapterNo,pgn,series,hdr,arrPage,currentPage,arrReference,downloadNext,label_no,t_ht,arrPage,pageNo,t_width,site,scale_width,scale_height,strict_original
 		
 		label_no = num
 		#picn = picN
-		  
+		print ('---------strict_original--------',strict_original)
+		sz = str(scale_width)+','+str(scale_height)
+		
 		p1="self.label_"+str(label_no)+" = ExtendedQLabel(self.scrollAreaWidgetContents)"
 		  #p7 = "l_"+str(i)+" = weakref.ref(self.label_"+str(i)+")"
 		p7 = "l_"+str(label_no)+" = weakref.ref(self.label_"+str(label_no)+")"  
 		p5="self.label_"+str(label_no)+".setObjectName(_fromUtf8("+'"'+"label_"+str(label_no)+'"'+"))"
 		p6="self.horizontalLayout.addWidget(self.label_"+str(label_no)+")"
-		#p9 = "self.label_"+str(label_no)+".setMaximumSize(QtCore.QSize(800, 16777215))"
-		p9 = "self.label_"+str(label_no)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 16777215))"
-		p10 = "self.label_"+str(label_no)+".setMinimumSize(QtCore.QSize("+str(t_width)+", 0))"
+		##p9 = "self.label_"+str(label_no)+".setMaximumSize(QtCore.QSize(800, 16777215))"
+		p9 = "self.label_"+str(label_no)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+		p10 = "self.label_"+str(label_no)+".setMinimumSize(QtCore.QSize("+sz+"))"
 		p4="self.label_"+str(label_no)+".setScaledContents(True)"
 		p11="self.label_"+str(label_no)+".setMouseTracking(True)"
 		p12 = "self.label_"+str(label_no)+".setAlignment(QtCore.Qt.AlignCenter)"
@@ -706,11 +880,12 @@ class Ui_MainWindow(object):
 		exec (p1)
 		exec (p7)
 		exec (p5)
-		exec (p9)
-		exec (p10)
+		if not strict_original:
+			exec (p9)
+			exec (p10)
+			exec (p4)
 		exec (p6)
 		exec (p11)
-		exec (p4)
 		exec (p12)
 		
 		
@@ -726,13 +901,13 @@ class Ui_MainWindow(object):
 		p7 = "l_text_"+str(label_no)+" = weakref.ref(self.label_text_"+str(label_no)+")"  
 		p5="self.label_text_"+str(label_no)+".setObjectName(_fromUtf8("+'"'+"label_text_"+str(label_no)+'"'+"))"
 		p6="self.horizontalLayout.addWidget(self.label_text_"+str(label_no)+")"
-		p9 = "self.label_text_"+str(label_no)+".setMaximumSize(QtCore.QSize("+str(t_width)+", 100))"
+		p9 = "self.label_text_"+str(label_no)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 100))"
 		p4="self.label_text_"+str(label_no)+".setText(picn_t)"
 		p2 = "self.label_text_"+str(label_no)+".setAlignment(QtCore.Qt.AlignCenter)"
 		exec (p1)
 		exec (p7)
 		exec (p5)
-		exec (p9)
+		#exec (p9)
 		exec (p6)
 		  
 		exec (p4)
@@ -1230,9 +1405,11 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
 	import sys
-	global base_url,download,nextp_fetched,fullscr,wget,hdr,home,options,name,pre_name,pgn,currentPage,arrPage,arrReference,downloadNext,label_no,t_ht,t_width,scale_width,screen_width,screen_height,view_mode
+	global base_url,download,nextp_fetched,fullscr,wget,hdr,home,options,name,pre_name,pgn,currentPage,arrPage,arrReference,downloadNext,label_no,t_ht,t_width,scale_width,screen_width,screen_height,view_mode,scale_height,strict_original
+	strict_original = False
 	view_mode = 0
 	scale_width = 900
+	scale_height = 0
 	t_width=900
 	chapterNo = ""
 	t_ht = 0
@@ -1265,6 +1442,10 @@ if __name__ == "__main__":
 	ui.setupUi(MainWindow)
 	if not os.path.exists(home):
 		os.makedirs(home)
+	if not os.path.exists(home+'/config.txt'):
+		f = open(home+'/config.txt','w')
+		f.write('scale_width=900'+'\n'+'scale_height=0')
+		f.close()
 	if not os.path.exists('/tmp/ReadManga/'):
 		os.makedirs('/tmp/ReadManga/')
 	if os.path.exists(home+'/src'):
@@ -1281,7 +1462,27 @@ if __name__ == "__main__":
 	
 	except:
 		pass
-
+	try:
+		if os.path.exists(home+'/config.txt'):
+			f = open(home+'/config.txt','r')
+			lines = f.readlines()
+			f.close()
+			for i in lines:
+				i = i.replace('\n','')
+				j = i.split('=')
+				if j[0] == 'scale_width':
+					scale_width = int(float(j[1]))
+				elif j[0] == 'scale_height':
+					scale_height = int(float(j[1]))
+				
+			
+	except:
+		scale_width = 900
+		scale_height = 0
+		
+	if not scale_width:
+		scale_width = 900
+		scale_height = 0
 	MainWindow.show()
 	ret = app.exec_()
 
@@ -1293,6 +1494,10 @@ if __name__ == "__main__":
 			f.write(name+':'+chapterNo+":"+str(row)+":"+str(pageNo))
 		else:
 			f.write(name+':'+chapterNo+":"+str(ui.list1.currentRow())+":"+str(pageNo))
+		f.close()
+		
+		f = open(home+'/config.txt','w')
+		f.write('scale_width='+str(int(scale_width))+'\n'+'scale_height='+str(int(scale_height)))
 		f.close()
 		
 		if ui.downloadWget:
