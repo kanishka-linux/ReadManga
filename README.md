@@ -118,7 +118,7 @@ In LXDE, XFCE or Cinnamon ,any new entry of launcher in '~/.local/share/applicat
 
 If some source sites are not working then try clearing the cache directory '/tmp/ReadManga/' and relaunch the application.
 
-If next page does not load smoothly, try increasing/decreasing size of image using '-/=' keys.
+If next page does not load smoothly, try increasing/decreasing size of image using '-/=' keys or try removing "~/.config/ReadMangaKA/config.txt" and restart the application.
 
 
 #Brief Documentation
