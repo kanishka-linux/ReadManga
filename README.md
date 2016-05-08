@@ -118,6 +118,7 @@ In LXDE, XFCE or Cinnamon ,any new entry of launcher in '~/.local/share/applicat
 
 If some source sites are not working then try clearing the cache directory '/tmp/ReadManga/' and relaunch the application.
 
+If next page does not load smoothly, try increasing/decreasing size of image using '-/=' keys.
 
 
 #Brief Documentation
@@ -131,6 +132,8 @@ f : toggle fullscreen mode {In fullscreen mode mouse pointer hides automatically
 
 w:  fit to width {aspect ratio as per the last visited image}
 
+shift+w: fit to width but doesn't keep aspect ratio {pressing 'h' and then 'shift+w' will fit the image both widthwise and heightwise}
+
 h:  fit to height {aspect ratio as per the last visited image} 
 
 o:  gets the original aspect ratio of last visited image, and sets same aspect ratio for all image.
@@ -142,6 +145,10 @@ a:  show strictly original images with no scaling.
 '-': decrease size of image by 0.01 factor by keeping aspect ratio constant.
 
 p:   show/hide side bar or option bar
+
+1: View Mode 1 (Default mode, keeps only 5 last pages in memory, consumes less memory)
+
+2: View Mode 2 (Keeps all the pages in memory, memory consuming mode)
 
 'Down' : Simply scroll down and auto-load next page once current page reaches it's end.
 
@@ -159,6 +166,6 @@ If incomplete image gets loaded then simply click on the image to reload it agai
 
 #Note: 
 
-1. Once a page is ended, By simply pressing 'Down' key, next page is loaded automatically. It means new page is created on the fly dynamically. It does not remove previous pages and all the visited pages are kept in memory for later reference, which one can access via 'Up' or 'Down' key. Therefore, it is possible that if you've accessed large number of pages in one single session, then RAM of your system might get full, if your system has less memory. In order to free up the memory double click on the required 'chapter' of the 'Chapters' Tab of Option/Side-bar or simply try using ctrl+Left/Right arrow keys. When you select new manga then memory occupied by earlier manga is freed automatically. Alternatively, you can simply close the application to free up the memory.
+1. Once a page is ended, By simply pressing 'Down' key, next page is loaded automatically. It means new page is created on the fly dynamically. It does not remove previous pages and all the visited pages are kept in memory for later reference, which one can access via 'Up' or 'Down' key. Therefore, it is possible that if you've accessed large number of pages in one single session, then RAM of your system might get full, if your system has less memory. In order to free up the memory double click on the required 'chapter' of the 'Chapters' Tab of Option/Side-bar or simply try using ctrl+Left/Right arrow keys. When you select new manga then memory occupied by earlier manga is freed automatically. Alternatively, you can simply close the application to free up the memory. {Now Applicable only for View Mode 2}
  
 2. In this application '/tmp/ReadManga/' acts as cache folder. If images are not loading or search function is not working then try removing contents of cache folder or simply delete the cache folder manually itself and restart the application.

@@ -300,11 +300,13 @@ class MyScrollArea(QtGui.QScrollArea):
 			
 			
 			
-			
-			p10 = "ui.label_"+str(i)+".setScaledContents(True)"
-			exec (p10)
-			p11 = "ui.label_text_"+str(i)+".setScaledContents(True)"
-			exec (p11)
+			try:
+				p10 = "ui.label_"+str(i)+".setScaledContents(True)"
+				exec (p10)
+				p11 = "ui.label_text_"+str(i)+".setScaledContents(True)"
+				exec (p11)
+			except:
+				pass
 			
 			
 	
@@ -327,7 +329,7 @@ class MyScrollArea(QtGui.QScrollArea):
 			scale_width = t_width
 			scale_height = 0
 	def keyPressEvent(self, event):
-		global frame_toggle,name,label_no,chapterNo,arrPage,pageNo,label_no,t_width,scale_width,scale_height,strict_original
+		global frame_toggle,name,label_no,chapterNo,arrPage,pageNo,label_no,t_width,scale_width,scale_height,strict_original,total_ht,view_mode,arr_pg_cnt
 		#if event.key() == QtCore.Qt.Key_Right:
 		#    ui.hello(pageNo)
 		if event.modifiers() == QtCore.Qt.ShiftModifier and event.key() == QtCore.Qt.Key_W:
@@ -338,14 +340,17 @@ class MyScrollArea(QtGui.QScrollArea):
 			scale_width = wd
 			sz = str(scale_width)+','+str(scale_height)
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
-				exec (p9)
-				exec (p10)
-				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
-				exec (p11)
-			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
-			ui.scrollArea.verticalScrollBar().setValue(total_height)
+				try:
+					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
+					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
+					exec (p9)
+					exec (p10)
+					p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
+					exec (p11)
+				except:
+					pass
+			#total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			#ui.scrollArea.verticalScrollBar().setValue(total_height)
 		elif event.key() == QtCore.Qt.Key_W:
 			if strict_original:
 				self.scale_content()
@@ -368,17 +373,20 @@ class MyScrollArea(QtGui.QScrollArea):
 			sz = str(scale_width)+','+str(scale_height)
 			print (t_width)
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
-				exec (p9)
-				exec (p10)
-				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
-				exec (p11)
-				QtGui.QApplication.processEvents()
+				try:
+					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
+					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
+					exec (p9)
+					exec (p10)
+					p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(wd)+", 16777215))"
+					exec (p11)
+					QtGui.QApplication.processEvents()
+				except:
+					pass
 			
-			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
-			ui.scrollArea.verticalScrollBar().setValue(total_height)
-			QtGui.QApplication.processEvents()
+			#total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			#ui.scrollArea.verticalScrollBar().setValue(total_height)
+			#QtGui.QApplication.processEvents()
 		elif event.key() == QtCore.Qt.Key_H:
 			if strict_original:
 				self.scale_content()
@@ -401,14 +409,17 @@ class MyScrollArea(QtGui.QScrollArea):
 			print ('--height--',ht)
 			print ('--new_size--',sz)
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
-				exec (p9)
-				exec (p10)
-				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				exec (p11)
-			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
-			ui.scrollArea.verticalScrollBar().setValue(total_height)
+				try:
+					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
+					exec (p9)
+					exec (p10)
+					p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+					exec (p11)
+				except:
+					pass
+			#total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			#ui.scrollArea.verticalScrollBar().setValue(total_height)
 		elif event.key() == QtCore.Qt.Key_O:
 			if strict_original:
 				self.scale_content()
@@ -416,14 +427,17 @@ class MyScrollArea(QtGui.QScrollArea):
 			sz = str(scale_width)+','+str(scale_height)
 			print (t_width)
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
-				exec (p9)
-				exec (p10)
-				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				exec (p11)
-			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
-			ui.scrollArea.verticalScrollBar().setValue(total_height)
+				try:
+					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
+					exec (p9)
+					exec (p10)
+					p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+					exec (p11)
+				except:
+					pass
+			#total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			#ui.scrollArea.verticalScrollBar().setValue(total_height)
 		elif event.key() == QtCore.Qt.Key_Equal:
 			if strict_original:
 				self.scale_content()
@@ -435,14 +449,17 @@ class MyScrollArea(QtGui.QScrollArea):
 			t_width = scale_width
 			sz = str(scale_width)+','+str(scale_height)
 			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
-				exec (p9)
-				exec (p10)
-				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				exec (p11)
-			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
-			ui.scrollArea.verticalScrollBar().setValue(total_height)
+				try:
+					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
+					exec (p9)
+					exec (p10)
+					p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+					exec (p11)
+				except:
+					pass
+			#total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			#ui.scrollArea.verticalScrollBar().setValue(total_height)
 		elif event.key() == QtCore.Qt.Key_Minus:
 			if strict_original:
 				self.scale_content()
@@ -450,33 +467,39 @@ class MyScrollArea(QtGui.QScrollArea):
 			if not scale_height:
 				self.find_size()
 			
-			scale_width = scale_width - (scale_width * 0.01)
-			scale_height = scale_height - (scale_height * 0.01)
-			t_width = scale_width
-			sz = str(scale_width)+','+str(scale_height)
-			for i in range(label_no):
-				p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
-				exec (p9)
-				exec (p10)
-				p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
-				exec (p11)
-			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
-			ui.scrollArea.verticalScrollBar().setValue(total_height)
-			#elif event.key() == QtCore.Qt.Key_Left:
-			#pageNo = pageNo - 1
-			#ui.hello(pageNo)
+			if self.height() <= scale_height:
+				scale_width = scale_width - (scale_width * 0.01)
+				scale_height = scale_height - (scale_height * 0.01)
+				t_width = scale_width
+				sz = str(scale_width)+','+str(scale_height)
+				for i in range(label_no):
+					try:
+						p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+						p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
+						exec (p9)
+						exec (p10)
+						p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+str(scale_width)+", 16777215))"
+						exec (p11)
+					except:
+						pass
+				#total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+				#ui.scrollArea.verticalScrollBar().setValue(total_height)
+				
 		elif event.key() == QtCore.Qt.Key_A:
 			
 			if not strict_original:
+				total_ht = 0
 				strict_original = True
-				for i in range(label_no):
-					p10 = "ui.label_"+str(i)+".setScaledContents(False)"
-					exec (p10)
-					p11 = "ui.label_text_"+str(i)+".setScaledContents(False)"
-					exec (p11)
-					
-					
+				length = arr_pg_cnt[0]
+				for i in range(length,label_no):
+					try:
+						p10 = "ui.label_"+str(i)+".setScaledContents(False)"
+						exec (p10)
+						p11 = "ui.label_text_"+str(i)+".setScaledContents(False)"
+						exec (p11)
+					except:
+						pass
+					#QtGui.QApplication.processEvents()
 					p7 = "ui.label_text_"+str(i)+".text()"
 					try:
 						epn=eval(p7)
@@ -492,22 +515,59 @@ class MyScrollArea(QtGui.QScrollArea):
 						wd = 900
 						ht = 0
 					sz = str(int(wd))+','+str(int(ht))
-					
-					p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+sz+"))"
-					p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
-					exec (p9)
-					exec (p10)
-					p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+sz+"))"
-					exec (p11)
-			
-					
+					try:
+						p9 = "ui.label_"+str(i)+".setMaximumSize(QtCore.QSize("+sz+"))"
+						p10 = "ui.label_"+str(i)+".setMinimumSize(QtCore.QSize("+sz+"))"
+						exec (p9)
+						exec (p10)
+						p11 = "ui.label_text_"+str(i)+".setMaximumSize(QtCore.QSize("+sz+"))"
+						exec (p11)
+					except:
+						pass
+					print(ht)
+					total_ht = total_ht + ht
 			print ('---------strict_original--------',strict_original)
-			total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
-			ui.scrollArea.verticalScrollBar().setValue(total_height)
+			#total_height = ((label_no-1)*scale_height)+((label_no-1)*10)
+			#ui.scrollArea.verticalScrollBar().setValue(total_height)
+			#total_ht = -1
+			scale_width = 0
+			scale_height = 0
+			
 		elif event.key() == QtCore.Qt.Key_1:
-			view_mode = 0
-		elif event.key() == QtCore.Qt.Key_2:
 			view_mode = 1
+			length = len(arr_pg_cnt)
+			length1 = len(arr_pg_cnt)
+			ht = 0
+			while length >= 6:
+				pg_del = arr_pg_cnt[0]
+				del arr_pg_cnt[0]
+				
+				try:
+					t = "ui.label_"+str(pg_del)+".height()"
+
+					ht = eval(t)
+					total_ht = total_ht - ht
+					
+					t = "ui.label_"+str(pg_del)+".deleteLater()"
+
+					exec (t)
+					t = "ui.label_text_"+str(pg_del)+".deleteLater()"
+
+					exec (t)
+				except:
+					pass
+				length = length - 1
+			if length1 >=6:
+				QtGui.QApplication.processEvents()
+				if scale_height:
+					_ht = 5*scale_height - ui.scrollArea.height() + 80
+				else:
+					_ht = total_ht - ui.scrollArea.height() + 80
+				print(total_ht,_ht,'total-height')
+				ui.scrollArea.verticalScrollBar().setValue(_ht)
+			print(len(arr_pg_cnt),'--arr_pg_cnt----')
+		elif event.key() == QtCore.Qt.Key_2:
+			view_mode = 2
 		elif event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Left:
 			r = ui.list2.currentRow()
 			if len(ui.downloadWget) == 0:
@@ -835,7 +895,7 @@ class Ui_MainWindow(object):
 		global download,nextp,prevp,picn,chapterNo,pgn,series,downloadNext,pageNo,screen_height,view_mode
 		
 		
-		if view_mode == 0:
+		if view_mode == 1 or view_mode == 2:
 			if value >= self.scrollArea.verticalScrollBar().maximum() - 50:
 				#if downloadNext == 1:
 				if len(self.downloadWget) == 0:
@@ -858,7 +918,43 @@ class Ui_MainWindow(object):
 
 
 	def createLabel(self,picN,num):
-		global base_url,nextp,prevp,download,nextp_fetched,picn,chapterNo,pgn,series,hdr,arrPage,currentPage,arrReference,downloadNext,label_no,t_ht,arrPage,pageNo,t_width,site,scale_width,scale_height,strict_original
+		global base_url,nextp,prevp,download,nextp_fetched,picn,chapterNo,pgn,series,hdr,arrPage,currentPage,arrReference,downloadNext,label_no,t_ht,arrPage,pageNo,t_width,site,scale_width,scale_height,strict_original,arr_pg_cnt,total_ht,view_mode
+		
+		arr_pg_cnt.append(label_no)
+		#if not scale_width:
+		#	strict_original = True
+		
+		if label_no > 4 and view_mode == 1:
+			#QtGui.QApplication.processEvents()
+			#length = len(arr_pg_cnt)
+			#while length >= 6:
+			pg_del = arr_pg_cnt[0]
+			del arr_pg_cnt[0]
+			
+			try:
+				t = "self.label_"+str(pg_del)+".height()"
+
+				ht = eval(t)
+				total_ht = total_ht - ht
+				
+				t = "ui.label_"+str(pg_del)+".deleteLater()"
+
+				exec (t)
+				t = "ui.label_text_"+str(pg_del)+".deleteLater()"
+
+				exec (t)
+			except:
+				pass
+			#length = length - 1
+			QtGui.QApplication.processEvents()
+			if scale_height:
+				_ht = 4*scale_height - self.scrollArea.height() + 80
+			else:
+				_ht = total_ht - self.scrollArea.height() + 80
+				print(_ht,'--------_ht-------------')
+			print(total_ht,_ht,'total-height')
+			ui.scrollArea.verticalScrollBar().setValue(_ht)
+		
 		
 		label_no = num
 		#picn = picN
@@ -888,7 +984,7 @@ class Ui_MainWindow(object):
 		exec (p11)
 		exec (p12)
 		
-		
+		print('label_'+str(label_no)+' created')
 		
 		
 		
@@ -907,23 +1003,27 @@ class Ui_MainWindow(object):
 		exec (p1)
 		exec (p7)
 		exec (p5)
-		#exec (p9)
+		if not strict_original:
+			exec (p9)
 		exec (p6)
 		  
 		exec (p4)
 		exec (p2)
 			
-		
+		#p2 = "self.label_text_"+str(label_no)+".hide()"
+		#exec(p2)
 		img_err = True
-		
+		sz = (0,0)
 		try:
 			im = Image.open(picN)
 			im.verify()
 			im = Image.open(picN)
+			sz = im.size
 			im.load()
 			img_err = False
 		except:
 			img_err = True
+			sz = (0,0)
 			
 		if img_err:
 			self.imgArr.append(downloadFile(picN,label_no))
@@ -935,6 +1035,11 @@ class Ui_MainWindow(object):
 		p7 = "self.label_"+str(label_no)+".setPixmap(img1)"
 		exec (p7)
 		
+		
+		
+		total_ht = total_ht + sz[1]
+		print(sz)
+		#print(total_ht,'---total_ht---')
 		label_no = label_no+1
 		
 	@pyqtSlot(str,int)
@@ -1253,7 +1358,7 @@ class Ui_MainWindow(object):
 			self.list3.addItem(i)
 	  
 	def setname(self):
-		global name,download,home,options,pre_name,arrPage,arrReference,currentPage,chapterNo,pageNo,label_no,site
+		global name,download,home,options,pre_name,arrPage,arrReference,currentPage,chapterNo,pageNo,label_no,site,arr_pg_cnt,total_ht
 		if self.downloadWget:
 			for i in self.downloadWget:
 				if not i.isFinished():
@@ -1283,6 +1388,8 @@ class Ui_MainWindow(object):
 				pass
 			i = i+1
 		label_no = 0
+		arr_pg_cnt[:]=[]
+		total_ht = 0
 		name = self.list3.currentItem().text()
 		name = str(name)
 		download = 0
@@ -1336,19 +1443,24 @@ class Ui_MainWindow(object):
     
 	
 	def setchapter1(self):
-		global name,base_url,chapterNo,nam,arrPage,pageNo,label_no,site
+		global name,base_url,chapterNo,nam,arrPage,pageNo,label_no,site,arr_pg_cnt,total_ht
 		pageNo = 0
 		#label_no = pageNo
 		i = 0
 		while(i<label_no):
-			t = "ui.label_"+str(i)+".deleteLater()"
+			try:
+				t = "ui.label_"+str(i)+".deleteLater()"
 
-			exec (t)
-			t = "ui.label_text_"+str(i)+".deleteLater()"
+				exec (t)
+				t = "ui.label_text_"+str(i)+".deleteLater()"
 
-			exec (t)
+				exec (t)
+			except:
+				pass
 			i = i+1
 		label_no = 0
+		arr_pg_cnt[:]=[]
+		total_ht = 0
 		nam = self.list1.currentItem().text()
 		nam = str(nam)
 		chapterNo = nam
@@ -1380,7 +1492,7 @@ class Ui_MainWindow(object):
 		
 	  
 	def setchapter2(self):
-		global name,base_url,chapterNo,nam,arrPage,pageNo,label_no
+		global name,base_url,chapterNo,nam,arrPage,pageNo,label_no,arr_pg_cnt,total_ht
 		i = 0
 		while(i<label_no):
 			try:
@@ -1394,6 +1506,8 @@ class Ui_MainWindow(object):
 				pass
 			i = i+1
 		label_no = 0
+		arr_pg_cnt[:]=[]
+		total_ht = 0
 		pageNo = self.list2.currentRow()
 		#label_no = pageNo
 		ui.hello(pageNo)
@@ -1405,10 +1519,13 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
 	import sys
-	global base_url,download,nextp_fetched,fullscr,wget,hdr,home,options,name,pre_name,pgn,currentPage,arrPage,arrReference,downloadNext,label_no,t_ht,t_width,scale_width,screen_width,screen_height,view_mode,scale_height,strict_original
+	global base_url,download,nextp_fetched,fullscr,wget,hdr,home,options,name,pre_name,pgn,currentPage,arrPage,arrReference,downloadNext,label_no,t_ht,t_width,scale_width,screen_width,screen_height,view_mode,scale_height,strict_original,arr_pg_cnt,site,total_ht
+	total_ht = 0
 	strict_original = False
-	view_mode = 0
-	scale_width = 900
+	site = ''
+	arr_pg_cnt = []
+	view_mode = 1
+	scale_width = 0
 	scale_height = 0
 	t_width=900
 	chapterNo = ""
@@ -1444,7 +1561,7 @@ if __name__ == "__main__":
 		os.makedirs(home)
 	if not os.path.exists(home+'/config.txt'):
 		f = open(home+'/config.txt','w')
-		f.write('scale_width=900'+'\n'+'scale_height=0')
+		f.write('scale_width=0'+'\n'+'scale_height=0'+'\n'+'view_mode=1')
 		f.close()
 	if not os.path.exists('/tmp/ReadManga/'):
 		os.makedirs('/tmp/ReadManga/')
@@ -1474,30 +1591,33 @@ if __name__ == "__main__":
 					scale_width = int(float(j[1]))
 				elif j[0] == 'scale_height':
 					scale_height = int(float(j[1]))
-				
+				elif j[0] == 'view_mode':
+					view_mode = int(float(j[1]))
 			
 	except:
-		scale_width = 900
+		scale_width = 0
 		scale_height = 0
-		
+		view_mode = 1
 	if not scale_width:
-		scale_width = 900
 		scale_height = 0
+		strict_original = True
 	MainWindow.show()
+	ui.scrollArea.setStyleSheet("font:bold 12px;color:white;background:rgba(0,0,0,30%);border:rgba(0,0,0,30%);")
 	ret = app.exec_()
 
 	if os.path.isfile(home+"/"+site+"/"+name+".txt"):
-		f = open(home+"/"+site+"/"+name+".txt", "w")
-		if pageNo == -1:
-			row = ui.list1.currentRow()-1
-			chapterNo = str(ui.list1.item(row).text())
-			f.write(name+':'+chapterNo+":"+str(row)+":"+str(pageNo))
-		else:
-			f.write(name+':'+chapterNo+":"+str(ui.list1.currentRow())+":"+str(pageNo))
-		f.close()
+		if site:
+			f = open(home+"/"+site+"/"+name+".txt", "w")
+			if pageNo == -1:
+				row = ui.list1.currentRow()-1
+				chapterNo = str(ui.list1.item(row).text())
+				f.write(name+':'+chapterNo+":"+str(row)+":"+str(pageNo))
+			else:
+				f.write(name+':'+chapterNo+":"+str(ui.list1.currentRow())+":"+str(pageNo))
+			f.close()
 		
 		f = open(home+'/config.txt','w')
-		f.write('scale_width='+str(int(scale_width))+'\n'+'scale_height='+str(int(scale_height)))
+		f.write('scale_width='+str(int(scale_width))+'\n'+'scale_height='+str(int(scale_height))+'\n'+'view_mode='+str(int(view_mode)))
 		f.close()
 		
 		if ui.downloadWget:
