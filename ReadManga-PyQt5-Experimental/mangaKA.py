@@ -593,15 +593,10 @@ class MyScrollArea(QtWidgets.QScrollArea):
 				except:
 					pass
 				length = length - 1
-			if length1 >=6:
-				QtWidgets.QApplication.processEvents()
-				if scale_height:
-					_ht = 5*scale_height - ui.scrollArea.height() + 80
-				else:
-					_ht = total_ht - ui.scrollArea.height() + 80
-				print(total_ht,_ht,'total-height')
-				ui.scrollArea.verticalScrollBar().setValue(_ht)
+			
 			print(len(arr_pg_cnt),'--arr_pg_cnt----')
+			val = ui.scrollArea.verticalScrollBar().maximum() - ht - 80
+			ui.scrollArea.verticalScrollBar().setValue(val)
 		elif event.key() == QtCore.Qt.Key_2:
 			view_mode = 2
 		elif event.key() == QtCore.Qt.Key_D:
@@ -835,6 +830,7 @@ class Ui_MainWindow(object):
 		self.selectSite.currentIndexChanged['int'].connect(self.selectSource)
 		
 		self.scrollArea.verticalScrollBar().valueChanged.connect(self.scrolled)
+		###self.scrollArea.verticalScrollBar().actionTriggered.connect(self.scrolled)
 		self.tabWidget.setCurrentIndex(0)
 		QtCore.QMetaObject.connectSlotsByName(MainWindow)
 		self.scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
@@ -929,9 +925,6 @@ class Ui_MainWindow(object):
 				else:
 					val = self.scrollArea.verticalScrollBar().maximum() - 60
 					ui.scrollArea.verticalScrollBar().setValue(val)
-					pass
-		else:
-			pass
 
 
 	def createLabel(self,picN,num):
@@ -958,8 +951,13 @@ class Ui_MainWindow(object):
 				t = "ui.label_text_"+str(pg_del)+".deleteLater()"
 
 				exec (t)
+				
+				val = self.scrollArea.verticalScrollBar().maximum() - ht - 80
+				ui.scrollArea.verticalScrollBar().setValue(val)
+				print(total_ht,_ht,'total-height')
 			except:
 				pass
+			"""
 			#length = length - 1
 			#QtWidgets.QApplication.processEvents()
 			if scale_height:
@@ -976,6 +974,7 @@ class Ui_MainWindow(object):
 			print(_ht,'--------_ht-------------')
 			print(total_ht,_ht,'total-height')
 			ui.scrollArea.verticalScrollBar().setValue(_ht)
+			"""
 		
 		
 		label_no = num
@@ -1036,7 +1035,7 @@ class Ui_MainWindow(object):
 		try:
 			im = Image.open(picN)
 			im.verify()
-			im = Image.open(picN)
+			#im = Image.open(picN)
 			sz = im.size
 			im.load()
 			img_err = False

@@ -557,6 +557,7 @@ class MyScrollArea(QtGui.QScrollArea):
 				except:
 					pass
 				length = length - 1
+			"""
 			if length1 >=6:
 				QtGui.QApplication.processEvents()
 				if scale_height:
@@ -565,6 +566,9 @@ class MyScrollArea(QtGui.QScrollArea):
 					_ht = total_ht - ui.scrollArea.height() + 80
 				print(total_ht,_ht,'total-height')
 				ui.scrollArea.verticalScrollBar().setValue(_ht)
+			"""
+			val = ui.scrollArea.verticalScrollBar().maximum() - ht - 80
+			ui.scrollArea.verticalScrollBar().setValue(val)
 			print(len(arr_pg_cnt),'--arr_pg_cnt----')
 		elif event.key() == QtCore.Qt.Key_2:
 			view_mode = 2
@@ -905,11 +909,10 @@ class Ui_MainWindow(object):
 					if r < self.list2.count() and r >=0:
 						self.list2.setCurrentRow(r+1)
 				else:
+					#QtGui.QApplication.processEvents()
 					val = self.scrollArea.verticalScrollBar().maximum() - 60
 					ui.scrollArea.verticalScrollBar().setValue(val)
-					pass
-		else:
-			pass
+		
     
         
 	
@@ -921,13 +924,9 @@ class Ui_MainWindow(object):
 		global base_url,nextp,prevp,download,nextp_fetched,picn,chapterNo,pgn,series,hdr,arrPage,currentPage,arrReference,downloadNext,label_no,t_ht,arrPage,pageNo,t_width,site,scale_width,scale_height,strict_original,arr_pg_cnt,total_ht,view_mode
 		
 		arr_pg_cnt.append(label_no)
-		#if not scale_width:
-		#	strict_original = True
+		
 		
 		if label_no > 4 and view_mode == 1:
-			#QtGui.QApplication.processEvents()
-			#length = len(arr_pg_cnt)
-			#while length >= 6:
 			pg_del = arr_pg_cnt[0]
 			del arr_pg_cnt[0]
 			
@@ -935,7 +934,7 @@ class Ui_MainWindow(object):
 				t = "self.label_"+str(pg_del)+".height()"
 
 				ht = eval(t)
-				total_ht = total_ht - ht
+				total_ht = total_ht - ht 
 				
 				t = "ui.label_"+str(pg_del)+".deleteLater()"
 
@@ -943,17 +942,20 @@ class Ui_MainWindow(object):
 				t = "ui.label_text_"+str(pg_del)+".deleteLater()"
 
 				exec (t)
+				
+				#QtGui.QApplication.processEvents()
+				#if scale_height:
+				#	_ht = 4*scale_height - self.scrollArea.height() + 80
+				#	ui.scrollArea.verticalScrollBar().setValue(_ht)
+				#else:
+				val = self.scrollArea.verticalScrollBar().maximum() - ht - 80
+				ui.scrollArea.verticalScrollBar().setValue(val)
+				print(total_ht,_ht,'total-height')
 			except:
 				pass
 			#length = length - 1
-			QtGui.QApplication.processEvents()
-			if scale_height:
-				_ht = 4*scale_height - self.scrollArea.height() + 80
-			else:
-				_ht = total_ht - self.scrollArea.height() + 80
-				print(_ht,'--------_ht-------------')
-			print(total_ht,_ht,'total-height')
-			ui.scrollArea.verticalScrollBar().setValue(_ht)
+			
+			
 		
 		
 		label_no = num
@@ -1017,7 +1019,7 @@ class Ui_MainWindow(object):
 		try:
 			im = Image.open(picN)
 			im.verify()
-			im = Image.open(picN)
+			#im = Image.open(picN)
 			sz = im.size
 			im.load()
 			img_err = False
