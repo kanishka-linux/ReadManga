@@ -92,7 +92,7 @@ def cloudfareOld(url):
 
 def ccurl(url):
 	global hdr
-	hdr = 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:37.0) Gecko/20100101 Firefox/37.0'
+	hdr = 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:45.0) Gecko/20100101 Firefox/45.0'
 	print(url)
 	c = pycurl.Curl()
 	
@@ -216,7 +216,7 @@ def replace_all(text, di):
 
 class Manga_Read():
 	def __init__(self,site):
-		self.hdr = 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:37.0) Gecko/20100101 Firefox/37.0'
+		self.hdr = 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:45.0) Gecko/20100101 Firefox/45.0'
 		if site == "KissManga":
 			if not os.path.isfile('/tmp/ReadManga/kcookieM.txt'):
 				cloudfare("http://kissmanga.com")
