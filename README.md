@@ -36,6 +36,7 @@ Therefore, before using this application please check the copyright and licensin
 
 3. If you've successfully installed AnimeWatch Player before, then you don't have to install any dependencies at all and can directly go to main installation process for the stable version.
 
+4. If you've installed the Application using .deb or .pkg.tar.xz package, and somehow application launcher in the menu is not working, then open terminal and launch the application using command 'python -B /usr/share/ReadManga/mangaKA.py' or 'python3 -B /usr/share/ReadManga/mangaKA.py'.
 
 #Dependencies and Installation:
 
