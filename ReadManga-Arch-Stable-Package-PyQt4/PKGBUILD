@@ -1,0 +1,32 @@
+pkgname=ReadManga
+_pkgname=ReadManga
+pkgver=2.3.0
+pkgrel=2
+pkgdesc="Online Manga Reader"
+arch=(any)
+license=('GPL3')
+depends=('python' 'python-pyqt4' 'python-pycurl' 'python-urllib3' 'curl'
+        'python-beautifulsoup4' 'python-psutil' 'python-pillow' 'python-lxml')
+
+#source=("git+https://github.com/abhishek-archlinux/ReadManga.git")
+source=("https://github.com/abhishek-archlinux/"${pkgname}"/archive/v"${pkgver}-${pkgrel}".zip")
+md5sums=('SKIP')
+_gitname=ReadManga-PyQt4-Stable
+
+
+
+package() {
+  cd "${srcdir}"
+
+  _bpath="${srcdir}/${pkgname}-${pkgver}-${pkgrel}/${_gitname}"
+
+  install -d "${pkgdir}/usr/share/${_pkgname}/"
+  install -d "${pkgdir}/usr/share/applications/"
+  install -d "${pkgdir}/usr/bin/"
+  # Program
+  install -Dm755 "${_bpath}"/{headlessBrowser.py,mangaKA.py,Manga_Read.py} "${pkgdir}/usr/share/${_pkgname}/"
+  cat "${_bpath}/readmanga.desktop" | sed 's/Exec=/Exec=python -B \/usr\/share\/ReadManga\/mangaKA.py/g' > "${pkgdir}/usr/share/applications/readmanga.desktop"
+  echo 'python -B /usr/share/ReadManga/mangaKA.py' > "${pkgdir}/usr/bin/read-manga"
+  chmod +x "${pkgdir}/usr/bin/read-manga"
+  
+}
