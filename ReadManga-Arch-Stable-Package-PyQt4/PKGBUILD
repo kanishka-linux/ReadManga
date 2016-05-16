@@ -16,7 +16,6 @@ _gitname=ReadManga-PyQt4-Stable
 
 
 package() {
-  cd "${srcdir}"
 
   _bpath="${srcdir}/${pkgname}-${pkgver}-${pkgrel}/${_gitname}"
 
@@ -26,7 +25,8 @@ package() {
   # Program
   install -Dm755 "${_bpath}"/{headlessBrowser.py,mangaKA.py,Manga_Read.py} "${pkgdir}/usr/share/${_pkgname}/"
   cat "${_bpath}/readmanga.desktop" | sed 's/Exec=/Exec=python -B \/usr\/share\/ReadManga\/mangaKA.py/g' > "${pkgdir}/usr/share/applications/readmanga.desktop"
-  echo 'python -B /usr/share/ReadManga/mangaKA.py' > "${pkgdir}/usr/bin/read-manga"
+  echo '#!/bin/bash' > "${pkgdir}/usr/bin/read-manga"
+  echo 'python -B /usr/share/ReadManga/mangaKA.py' >> "${pkgdir}/usr/bin/read-manga"
   chmod +x "${pkgdir}/usr/bin/read-manga"
   
 }
