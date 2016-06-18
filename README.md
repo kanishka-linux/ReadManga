@@ -1,4 +1,4 @@
-﻿#ReadManga :  A GNU/Linux Desktop Application for reading Japanese Manga from various sites available on the internet
+﻿#ReadManga :  A GNU/Linux Desktop Application for reading Japanese Manga from various sites available on the internet.
 
 Note: This application fetches manga images from various sites available on the internet.
 Therefore, before using this application please check the copyright and licensing laws of your country. Because it's possible that some of these Manga might be already licensed in your country. Therefore use this application at your own risk. Author of the 'ReadManga' application is not at all related to any of these sites or their content provider. This application is simply a desktop client that fetches manga images from sites on the internet. If the site from which this application fetches images either closes or changes it's source, then this application will also fail to perform it's designated function. 
