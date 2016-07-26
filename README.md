@@ -52,8 +52,6 @@ python-pyqt4 {for stable ReadManga Application}
 
 python-pyqt5 (for experimental ReadManga-PyQt5 Application)
 
-python-requests {Not Required for version >= 2.1.0-1}
-
 python-urllib3
 
 python-pillow
@@ -62,29 +60,29 @@ python-beautifulsoup4
 
 python-lxml
 
-python-pip
-
 python-pycurl
 
 python-psutil
 
 curl
 
-wget {Not Required for version >= 2.0.0-1}
+~~python-requests {Not Required for version >= 2.1.0-1}~~
 
-phantomjs {Not Required for version >= 2.0.0-1}
+~~wget {Not Required for version >= 2.0.0-1}~~
+
+~~phantomjs {Not Required for version >= 2.0.0-1}~~
 
 #Dependencies installation in arch (Stable Version).
 
-sudo pacman -S python python-pyqt4 python-pycurl python-requests python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil python-pip curl wget phantomjs
+sudo pacman -S python python-pyqt4 python-pycurl python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil curl
 
 #In ubuntu 14.04, default python points to python 2.7, hence for installing dependencies use following command (Stable Version)
 
-sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-requests python3-urllib3 python3-pil python3-bs4 python3-lxml python3-psutil python3-pip curl wget phantomjs
+sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-urllib3 python3-pil python3-bs4 python3-lxml python3-psutil curl
 
 #Dependencies installation in arch (Experimental Version i.e. ReadManga-PyQt5).
 
-sudo pacman -S python python-pyqt5 python-pycurl python-requests python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil python-pip curl wget phantomjs
+sudo pacman -S python python-pyqt5 python-pycurl python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil curl
 
 In ubuntu 14.04, Experimental Version i.e. ReadManga-PyQt5 is not working 
 
