@@ -57,15 +57,15 @@ python-pycurl
 
 curl
 
-#Dependencies installation in arch (Stable Version).
+##Dependencies installation in arch (Stable Version).
 
 sudo pacman -S python python-pyqt4 python-pycurl python-pillow python-beautifulsoup4 python-lxml curl
 
-#In ubuntu 14.04, default python points to python 2.7, hence for installing dependencies use following command (Stable Version)
+##In ubuntu 14.04, default python points to python 2.7, hence for installing dependencies use following command (Stable Version)
 
 sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-pil python3-bs4 python3-lxml curl
 
-#Dependencies installation in arch (Experimental Version i.e. ReadManga-PyQt5).
+##Dependencies installation in arch (Experimental Version i.e. ReadManga-PyQt5).
 
 sudo pacman -S python python-pyqt5 python-pycurl python-pillow python-beautifulsoup4 python-lxml curl
 
@@ -74,13 +74,13 @@ In ubuntu 14.04, Experimental Version i.e. ReadManga-PyQt5 is not working
 Once Dependencies are installed Download the folder. Goto ReadManga Directory containing 'install.py' file (If you want stable version of the application written in pyqt4). If you want to try experimental version of the application written in pyqt5 then goto ReadManga-PyQt5 Directory containing 'install.py' file. 
 
 
-Once you are inside the required directory, Open Terminal in the directory and execute **python3 mangaKA.py** to open the application directly or use following command to create application launcher:
+Once you are inside the required directory, Open Terminal in the directory and execute **'python3 mangaKA.py'** to open the application directly or use following command to create application launcher:
 
-#In Arch:
+###In Arch:
 
 python install.py
 
-#In Ubuntu 14.04+:
+###In Ubuntu 14.04+:
 
 python3 install.py
 
