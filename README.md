@@ -35,9 +35,9 @@ Therefore, before using this application please check the copyright and licensin
 
 #Dependencies and Installation:
 
-Arch: PKGBUILD is available in Arch specific folder. First create pkg using **'makepkg -s'** and then install using **'sudo pacman -U pkg_name'**
+**Arch:** PKGBUILD is available in Arch specific folder. First create pkg using command **'makepkg -s'** and then install using **'sudo pacman -U pkg_name'**
 
-Ubuntu or Debian based distro: users can directly go to Release section,download appropriate .deb package and install it using 'sudo gdebi pkg_name.deb'. It will resolve all the dependencies while installing the package. Normally 'dpkg -i' is used for installing .deb package in Debian based distros, but 'dpkg' won't install dependencies automatically, which users have to install manually as per instructions given below. Hence try to use 'gdebi' for convenience. For removing the package use 'sudo apt-get remove ReadManga' 
+**Ubuntu or Debian based distro:** users can directly go to Release section,download appropriate .deb package and install it using **'sudo gdebi pkg_name.deb'**. It will resolve all the dependencies while installing the package. Normally 'dpkg -i' is used for installing .deb package in Debian based distros, but 'dpkg' won't install dependencies automatically, which users have to install manually as per instructions given below. Hence try to use 'gdebi' for convenience. For removing the package use 'sudo apt-get remove ReadManga' 
 
 #Dependencies
 
