@@ -1,11 +1,8 @@
 ﻿#ReadManga :  A GNU/Linux Desktop Application for reading Japanese Manga from various sites available on the internet.
 
-Note: This application fetches manga images from various sites available on the internet.
+**Note:** This application fetches manga images from various sites available on the internet.
 Therefore, before using this application please check the copyright and licensing laws of your country. Because it's possible that some of these Manga might be already licensed in your country. Therefore use this application at your own risk. Author of the 'ReadManga' application is not at all related to any of these sites or their content provider. This application is simply a desktop client that fetches manga images from sites on the internet. If the site from which this application fetches images either closes or changes it's source, then this application will also fail to perform it's designated function. 
 
-(Arch users can directly go to Release section or Package Folder,download appropriate pkg.tar.xz package and install it using 'sudo pacman -U pkg_name')
-
-(Ubuntu or Debian based distro users can also go to Release section or Package folder,download appropriate .deb package and install it using 'sudo gdebi pkg_name.deb'. If gdebi is not installed then install it using 'sudo apt-get install gdebi' )
 
 (If You've Already installed application using common method and now want to re-install it again using either .deb and .pkg.tar.xz or you want to try PyQt5 version, then first remove readmanga.desktop file located in '~/.local/share/applications/' and also remove config directory '~/.config/ReadMangaKA/src/')
 
@@ -34,15 +31,13 @@ Therefore, before using this application please check the copyright and licensin
 
 2. ReadManga-PyQt5-Experimental is experimental version (Inside ReadManga-PyQt5-Experimental Directory: Currently Working only in Arch-Linux) and written in pyqt5 and python3.
 
-3. If you've successfully installed AnimeWatch Player before, then you don't have to install any dependencies at all and can directly go to main installation process for the stable version.
-
-4. If you've installed the Application using .deb or .pkg.tar.xz package, and somehow application launcher in the menu is not working, then open terminal and launch the application using command 'python -B /usr/share/ReadManga/mangaKA.py' or 'python3 -B /usr/share/ReadManga/mangaKA.py'.
+3. If you've installed the Application using .deb or PKGBUILD, and somehow application launcher in the menu is not working, then open terminal and launch the application using command 'python -B /usr/share/ReadManga/mangaKA.py' or 'python3 -B /usr/share/ReadManga/mangaKA.py'.
 
 #Dependencies and Installation:
 
-(Arch users can directly go to Release section ,download appropriate package. The package can be installed using 'sudo pacman -U pkg_name', if some dependencies are missing then try installing it using 'yaourt -U pkg_name'. Then they can skip all other steps. Package can be uninstalled using 'sudo pacman -R ReadManga')
+Arch: PKGBUILD is available in Arch specific folder
 
-(Ubuntu or Debian based distro users can directly go to Release section,download appropriate .deb package and install it using 'sudo gdebi pkg_name.deb'. It will resolve all the dependencies while installing the package. Normally 'dpkg -i' is used for installing .deb package in Debian based distros, but 'dpkg' won't install dependencies automatically, which users have to install manually as per instructions given below. Hence try to use 'gdebi' for convenience. For removing the package use 'sudo apt-get remove ReadManga' )
+Ubuntu or Debian based distro: users can directly go to Release section,download appropriate .deb package and install it using 'sudo gdebi pkg_name.deb'. It will resolve all the dependencies while installing the package. Normally 'dpkg -i' is used for installing .deb package in Debian based distros, but 'dpkg' won't install dependencies automatically, which users have to install manually as per instructions given below. Hence try to use 'gdebi' for convenience. For removing the package use 'sudo apt-get remove ReadManga' 
 
 #Dependencies
 
@@ -52,8 +47,6 @@ python-pyqt4 {for stable ReadManga Application}
 
 python-pyqt5 (for experimental ReadManga-PyQt5 Application)
 
-python-urllib3
-
 python-pillow
 
 python-beautifulsoup4
@@ -62,27 +55,19 @@ python-lxml
 
 python-pycurl
 
-python-psutil
-
 curl
-
-~~python-requests {Not Required for version >= 2.1.0-1}~~
-
-~~wget {Not Required for version >= 2.0.0-1}~~
-
-~~phantomjs {Not Required for version >= 2.0.0-1}~~
 
 #Dependencies installation in arch (Stable Version).
 
-sudo pacman -S python python-pyqt4 python-pycurl python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil curl
+sudo pacman -S python python-pyqt4 python-pycurl python-pillow python-beautifulsoup4 python-lxml curl
 
 #In ubuntu 14.04, default python points to python 2.7, hence for installing dependencies use following command (Stable Version)
 
-sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-urllib3 python3-pil python3-bs4 python3-lxml python3-psutil curl
+sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-pil python3-bs4 python3-lxml curl
 
 #Dependencies installation in arch (Experimental Version i.e. ReadManga-PyQt5).
 
-sudo pacman -S python python-pyqt5 python-pycurl python-urllib3 python-pillow python-beautifulsoup4 python-lxml python-psutil curl
+sudo pacman -S python python-pyqt5 python-pycurl python-pillow python-beautifulsoup4 python-lxml curl
 
 In ubuntu 14.04, Experimental Version i.e. ReadManga-PyQt5 is not working 
 
@@ -93,7 +78,7 @@ Once you are inside the required directory, Open Terminal in the directory and u
 
 python install.py
 
-#In Ubuntu 14.04:
+#In Ubuntu 14.04+:
 
 python3 install.py
 
