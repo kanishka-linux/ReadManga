@@ -9,7 +9,8 @@ depends=('python' 'python-pyqt4' 'python-pycurl' 'curl'
         'python-beautifulsoup4' 'python-pillow' 'python-lxml')
 
 #source=("git+https://github.com/kanishka-linux/ReadManga.git")
-source=("https://github.com/kanishka-linux/"${pkgname}"/archive/v"${pkgver}-${pkgrel}".zip")
+#source=("https://github.com/kanishka-linux/"${pkgname}"/archive/v"${pkgver}-${pkgrel}".zip")
+source=("https://github.com/kanishka-linux/${_pkgname}/releases/download/v${pkgver}-${pkgrel}/${_pkgname}-${pkgver}-${pkgrel}.tar.bz2")
 md5sums=('SKIP')
 _gitname=ReadManga-PyQt4-Stable
 
