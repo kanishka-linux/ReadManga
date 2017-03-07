@@ -95,9 +95,10 @@ class BrowserPage(QWebPage):
 		cfc=''
 		cfd =''
 		asp = ''
+		idt = ''
 		clr = False
 		for i in n:
-			if 'cf_clearance' in i:
+			if 'idtz' in i:
 				clr = True
 				print(n)
 		if clr:
@@ -108,16 +109,19 @@ class BrowserPage(QWebPage):
 					cfd = self.cookie_split(i)
 				elif 'ASP.NET_SessionId' in i:
 					asp = self.cookie_split(i)
+				elif 'idtz' in i:
+					idt = self.cookie_split(i)
 		if cfc and cfd:
 			print(cfc)
 			print(cfd)
 			print(asp)
+			str3 = ''
 			str1 = cfc['domain']+'	'+cfc['HttpOnly']+'	'+cfc['path']+'	'+'FALSE'+'	'+cfc['expiry']+'	'+'cf_clearance'+'	'+cfc['cf_clearance']
 			str2 = cfd['domain']+'	'+cfd['HttpOnly']+'	'+cfd['path']+'	'+'FALSE'+'	'+cfd['expiry']+'	'+'__cfduid'+'	'+cfd['__cfduid']
 			if asp:
 				str3 = asp['domain']+'	'+'FALSE'+'	'+asp['path']+'	'+'FALSE'+'	'+asp['expiry']+'	'+'ASP.NET_SessionId'+'	'+asp['ASP.NET_SessionId']
-			else:
-				str3 = ''
+			if idt:
+				str3 = idt['domain']+'	'+'FALSE'+'	'+idt['path']+'	'+'FALSE'+'	'+str(0)+'	'+'idtz'+'	'+idt['idtz']
 			
 			if not os.path.exists('/tmp/ReadManga'):
 				os.makedirs('/tmp/ReadManga')

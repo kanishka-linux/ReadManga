@@ -20,8 +20,6 @@ along with ReadManga.  If not, see <http://www.gnu.org/licenses/>.
 
 from PyQt5 import QtCore, QtGui,QtWidgets
 import sys
-import urllib
-import urllib3
 import pycurl
 from io import StringIO,BytesIO
 import re

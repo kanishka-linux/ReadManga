@@ -19,8 +19,7 @@ along with ReadManga.  If not, see <http://www.gnu.org/licenses/>.
 
 from PyQt5 import QtCore, QtGui,QtWidgets
 import sys
-import urllib
-import urllib3
+import urllib.parse
 import pycurl
 from io import StringIO,BytesIO    
 import re
@@ -144,7 +143,6 @@ class downloadFile(QtCore.QThread):
 	imgAvailable = pyqtSignal(str,int)
 	def __init__(self,pic,label_num):
 		QtCore.QThread.__init__(self)
-		
 		self.picn = pic
 		self.label_num = label_num
 		self.interval = 1
@@ -170,9 +168,18 @@ class downloadFile(QtCore.QThread):
 				
 			time.sleep(1)
 			load_try = load_try + 1
+		print('inside---downloadfile---')
 		if not img_err:
 			self.imgAvailable.emit(picN,num)
-			
+
+@pyqtSlot(str,int)
+def imgReadyNew(p,n):
+	global ui
+	print(len(ui.imgArr))
+	img1 = QtGui.QPixmap(p, "1")
+	p7 = "ui.label_"+str(n)+".setPixmap(img1)"
+	exec (p7)
+
 class downloadUrl(QtCore.QThread):
 	imgUrl = pyqtSignal(str,str,int)
 	def __init__(self,site,name,pgn,p,n):
@@ -1045,7 +1052,7 @@ class Ui_MainWindow(object):
 		if img_err:
 			self.imgArr.append(downloadFile(picN,label_no))
 			length = len(self.imgArr)-1
-			self.imgArr[length].imgAvailable.connect(self.imgReady)
+			self.imgArr[length].imgAvailable.connect(imgReadyNew)
 			self.imgArr[length].start()
 		
 		img1 = QtGui.QPixmap(picN, "1")
