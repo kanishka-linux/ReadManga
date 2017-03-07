@@ -1,9 +1,0 @@
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Name=ReadManga
-#Icon=mcomix
-Exec=python -B /usr/share/ReadManga/mangaKA.py
-Terminal=true
-NoDisplay=false
-Categories=AudioVideo;Audio;Video;Player;TV;

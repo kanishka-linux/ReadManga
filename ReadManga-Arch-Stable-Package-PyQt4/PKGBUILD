@@ -1,12 +1,12 @@
 pkgname=ReadManga
 _pkgname=ReadManga
 pkgver=2.3.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Online Manga Reader"
 arch=(any)
 license=('GPL3')
-depends=('python' 'python-pyqt4' 'python-pycurl' 'python-urllib3' 'curl'
-        'python-beautifulsoup4' 'python-psutil' 'python-pillow' 'python-lxml')
+depends=('python' 'python-pyqt4' 'python-pycurl' 'curl'
+        'python-beautifulsoup4' 'python-pillow' 'python-lxml')
 
 #source=("git+https://github.com/kanishka-linux/ReadManga.git")
 source=("https://github.com/kanishka-linux/"${pkgname}"/archive/v"${pkgver}-${pkgrel}".zip")
