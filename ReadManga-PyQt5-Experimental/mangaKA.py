@@ -180,6 +180,17 @@ def imgReadyNew(p,n):
 	p7 = "ui.label_"+str(n)+".setPixmap(img1)"
 	exec (p7)
 
+@pyqtSlot(str,str,int)
+def downloadUrl_thread_finished(url,pic,num):
+	global ui
+	if url:
+		ui.downloadWget.append(downloadThread(url+'#'+'-o'+'#'+pic))
+		indxn = len(ui.downloadWget)-1
+		ui.downloadWget[indxn].finished.connect(lambda:ui.download_thread_finished(indxn,pic,num))
+		ui.downloadWget[indxn].start()
+	else:
+		ui.createLabel(pic,num)
+
 class downloadUrl(QtCore.QThread):
 	imgUrl = pyqtSignal(str,str,int)
 	def __init__(self,site,name,pgn,p,n):
@@ -1213,7 +1224,7 @@ class Ui_MainWindow(object):
 				print('-----download-Url-----')
 				self.downloadWgetUrl.append(downloadUrl(site,name,arrPage[pageNo_t],picn,label_no))
 				indxn = len(self.downloadWgetUrl)-1
-				self.downloadWgetUrl[indxn].imgUrl.connect(self.downloadUrl_thread_finished)
+				self.downloadWgetUrl[indxn].imgUrl.connect(downloadUrl_thread_finished)
 				self.downloadWgetUrl[indxn].start()
 			
 		self.createLabel(picn,label_no)
@@ -1251,7 +1262,7 @@ class Ui_MainWindow(object):
 					print('-----download-Url-----')
 					self.downloadWgetUrl.append(downloadUrl(site,name,arrPage[pageNo_t+1],picn1,label_no + 1))
 					indxn = len(self.downloadWgetUrl)-1
-					self.downloadWgetUrl[indxn].imgUrl.connect(self.downloadUrl_thread_finished)
+					self.downloadWgetUrl[indxn].imgUrl.connect(downloadUrl_thread_finished)
 					self.downloadWgetUrl[indxn].start()
 			
 			
@@ -1303,20 +1314,20 @@ class Ui_MainWindow(object):
 					print('-----download-Url-----')
 					self.downloadWgetUrl.append(downloadUrl(site,name,arrPage[0],picn1,label_no + 1))
 					indxn = len(self.downloadWgetUrl)-1
-					self.downloadWgetUrl[indxn].imgUrl.connect(self.downloadUrl_thread_finished)
+					self.downloadWgetUrl[indxn].imgUrl.connect(downloadUrl_thread_finished)
 					self.downloadWgetUrl[indxn].start()
 			
 			
 			
-	@pyqtSlot(str,str,int)
-	def downloadUrl_thread_finished(self,url,pic,num):
-		if url:
-			self.downloadWget.append(downloadThread(url+'#'+'-o'+'#'+pic))
-			indxn = len(self.downloadWget)-1
-			self.downloadWget[indxn].finished.connect(lambda:self.download_thread_finished(indxn,pic,num))
-			self.downloadWget[indxn].start()
-		else:
-			self.createLabel(pic,num)
+	#@pyqtSlot(str,str,int)
+	#def downloadUrl_thread_finished(self,url,pic,num):
+	#	if url:
+	#		self.downloadWget.append(downloadThread(url+'#'+'-o'+'#'+pic))
+	#		indxn = len(self.downloadWget)-1
+	#		self.downloadWget[indxn].finished.connect(lambda:self.download_thread_finished(indxn,pic,num))
+	#		self.downloadWget[indxn].start()
+	#	else:
+	#		self.createLabel(pic,num)
 			
 	def download_thread_finished(self,indx,p,n):
 		print(indx,'--indx---')
