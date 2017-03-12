@@ -1,208 +1,70 @@
 import sys  
-from PyQt5.QtGui import *  
-from PyQt5.QtCore import *  
-from PyQt5.QtWebKitWidgets import *  
 import re
 import urllib
-import urllib3
 import time
 import os
 import os.path
 import sys
 import calendar
 import weakref
+import threading
+from bs4 import BeautifulSoup
 from datetime import datetime
-from PyQt5 import QtCore, QtGui,QtNetwork,QtWidgets,QtWebKitWidgets,QtWebKit
-
+import pycurl
+import subprocess
+from io import StringIO,BytesIO
+from PyQt5 import QtCore, QtGui,QtNetwork,QtWidgets,QtWebEngineWidgets,QtWebEngineCore
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
 from PyQt5.QtNetwork import QNetworkAccessManager
-#from PyQt5.QtWebKitWidgets import QWebView
 
-class NetWorkManager(QNetworkAccessManager):
-	def __init__(self):
-		super(NetWorkManager, self).__init__()
-   
-	def createRequest(self, op, request, device = None ):
-		global lst
-		try:
-			path = str(request.url().path())
-		except UnicodeEncodeError:
-			pass
-		lower_case = path.lower()
-		#lst = tuple(open("easylist.txt", 'r'))
-		lst = ["doubleclick.net" ,"ads",'.jpg','redirector','itag=','.png','.gif','.css','google','facebook','.aspx',r"http[^'].mp4",r"http[^'].flv", r"||youtube-nocookie.com/gen_204?", r"youtube.com###watch-branded-actions", "imagemapurl","b.scorecardresearch.com","rightstuff.com","scarywater.net","popup.js","banner.htm","_tribalfusion","||n4403ad.doubleclick.net^$third-party",".googlesyndication.com","graphics.js","fonts.googleapis.com/css","s0.2mdn.net","server.cpmstar.com","||banzai/banner.$subdocument","@@||anime-source.com^$document","google","/pagead2.","frugal.gif","jriver_banner.png","show_ads.js",'##a[href^="http://billing.frugalusenet.com/"]',"http://jriver.com/video.html","||animenewsnetwork.com^*.aframe?","||contextweb.com^$third-party",".gutter",".iab",'http://www.animenewsnetwork.com/assets/[^"]*.jpg']
-		block = False
-		for l in lst:
-			if lower_case.find(l) != -1:
-				block = True
-				break
-		if block:
-			print ("Skipping")
-			print (request.url().path())
-			return QNetworkAccessManager.createRequest(self, QNetworkAccessManager.GetOperation, QtNetwork.QNetworkRequest(QtCore.QUrl()))
-		else:
-			return QNetworkAccessManager.createRequest(self, op, request, device)
-
-  
-class BrowserPage(QWebPage):  
-	def __init__(self,url):
-		super(BrowserPage, self).__init__()
-		self.hdr = 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:45.0) Gecko/20100101 Firefox/45.0'
-		#self.loadFinished.connect(self._loadFinished)
-		self.loadProgress.connect(self._loadProgress)
-		self.url = url
-		
-	def userAgentForUrl(self, url):
-		return self.hdr
-	def _loadFinished(self):
-		
-		print('Finished')
-		print(self.url)
-		
-		
-	def _loadProgress(self):
-		global web,hdr
-		print('Progress')
-		print(self.url)
-		if 'kissmanga' in self.url:
-			cookie_file = '/tmp/ReadManga/kcookieM.txt'
-		
-		frame = self.mainFrame()  
-		html = frame.toHtml()
-		#print(html)
-		listCookies = self.networkAccessManager().cookieJar().allCookies()
-		n = []
-		m = ''
-		o = ''
-		for cookie in  listCookies:
-			k=cookie.toRawForm()
-			#k = getContentUnicode(k)
-			k = re.sub("b'","'",str(k))
-			#print(k)
-			j = re.findall("'[^']*",k)
-			for i in j:
-				i = re.sub("'",'',i)
-				if 'kissmanga.com' in i:
-					j = re.findall('expires=[^;]*',i)
-					if j:
-						l = re.sub('expires=','',j[0])
-						d = datetime.strptime(l,"%a, %d-%b-%Y %H:%M:%S %Z")
-						t = calendar.timegm(d.timetuple())
-						i = i+'; expiry='+str(int(t))
-					else:
-						i = i+'; expiry='+str(0)
-					n.append(i)
-		#print(n)
-		cfc=''
-		cfd =''
-		asp = ''
-		idt = ''
-		clr = False
-		for i in n:
-			if 'idtz' in i:
-				clr = True
-				print(n)
-		if clr:
-			for i in n:
-				if 'cf_clearance' in i:
-					cfc = self.cookie_split(i)
-				elif '__cfduid' in i:
-					cfd = self.cookie_split(i)
-				elif 'ASP.NET_SessionId' in i:
-					asp = self.cookie_split(i)
-				elif 'idtz' in i:
-					idt = self.cookie_split(i)
-		if cfc and cfd:
-			print(cfc)
-			print(cfd)
-			print(asp)
-			str3 = ''
-			str1 = cfc['domain']+'	'+cfc['HttpOnly']+'	'+cfc['path']+'	'+'FALSE'+'	'+cfc['expiry']+'	'+'cf_clearance'+'	'+cfc['cf_clearance']
-			str2 = cfd['domain']+'	'+cfd['HttpOnly']+'	'+cfd['path']+'	'+'FALSE'+'	'+cfd['expiry']+'	'+'__cfduid'+'	'+cfd['__cfduid']
-			if asp:
-				str3 = asp['domain']+'	'+'FALSE'+'	'+asp['path']+'	'+'FALSE'+'	'+asp['expiry']+'	'+'ASP.NET_SessionId'+'	'+asp['ASP.NET_SessionId']
-			if idt:
-				str3 = idt['domain']+'	'+'FALSE'+'	'+idt['path']+'	'+'FALSE'+'	'+str(0)+'	'+'idtz'+'	'+idt['idtz']
-			
-			if not os.path.exists('/tmp/ReadManga'):
-				os.makedirs('/tmp/ReadManga')
-			f = open(cookie_file,'w')
-			if str3:
-				f.write(str2+'\n'+str1+'\n'+str3)
-			else:
-				f.write(str2+'\n'+str1)
-			f.close()
+class BrowseUrl(QWebEngineView):
 	
-		
-
-	def cookie_split(self,i):
-		m = []
-		j = i.split(';')
-		for k in j:
-			if '=' in k:
-				l = k.split('=')
-				l[0] = re.sub(' ','',l[0])
-				t = (l[0],l[1])
-			else:
-				k = re.sub(' ','',k)
-				t = (k,'TRUE')
-			m.append(t)
-		d = dict(m)
-		#print(d)
-		return(d)
-		
-class Browser(QWebView):
-	def __init__(self,url):
-		super(Browser, self).__init__()
-		self.setPage(BrowserPage(url))
-		
-
-
-class BrowseUrl(QtWidgets.QWidget):
-
-	def __init__(self,url):
+	def __init__(self,url,quality,c):
 		super(BrowseUrl, self).__init__()
-		self.Browse(url)
-
-
+		#QtWidgets.__init__()
+		self.url = url
+		self.add_cookie = True
+		self.quality = quality
+		self.media_val = ''
+		self.cnt = 0
+		self.cookie_file = c
+		self.Browse(self.url)
+		
 	def Browse(self,url):
-		MainWindow = QtWidgets.QWidget()
-		progress = QtWidgets.QProgressDialog("Please Wait", "Cancel", 0, 100, MainWindow)
-		progress.setWindowModality(QtCore.Qt.WindowModal)
-		progress.setAutoReset(True)
-		progress.setAutoClose(True)
-		progress.setMinimum(0)
-		progress.setMaximum(100)
-		progress.resize(500,100)
+		hdr = 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:45.0) Gecko/20100101 Firefox/45.0'
+		html = ''
+		home1 = os.path.expanduser("~")
 		
-		progress.setWindowTitle("Loading, Please Wait! (Cloudflare Protection)")
-		progress.show()
-		progress.setValue(0)
+		BASEDIR,BASEFILE = os.path.split(os.path.abspath(__file__))
+		
+		enginePath = os.path.join(BASEDIR,'headlessEngine.py')
+		
+		tmp_dir,new_c = os.path.split(self.cookie_file)
 		
 		
-		print('Browse: '+url)
-		self.web = Browser(url)
-		self.cookie = QtNetwork.QNetworkCookieJar()
-		
-		self.nam = NetWorkManager()
-		self.nam.setCookieJar(self.cookie)
-		
-		self.web.page().setNetworkAccessManager(self.nam)
-		self.web.load(QUrl(url))
-		cnt = 0
-		
-		if 'kissmanga' in url:
-			cookie_file = '/tmp/ReadManga/kcookieM.txt'
-		
-		while(not os.path.exists(cookie_file) and cnt < 60):
-			print('wait '+str(cnt))
-			time.sleep(1)
-			QtWidgets.QApplication.processEvents()
-			cnt = cnt+1
-		if cnt >= 60 and not os.path.exists(cookie_file):
-			f = open(cookie_file,'w')
+		content = 'checking_browser'
+		#web = BrowseUrl(url,quality)
+		if 'checking_browser' in content:
+			if os.name == 'posix':
+				p = subprocess.Popen(['python3','-B',enginePath,url,self.quality,self.cookie_file])
+			else:
+				p = subprocess.Popen(['python','-B',enginePath,url,self.quality,self.cookie_file],shell=True)
+			
+			cnt = 0
+			
+			lnk_file = os.path.join(tmp_dir,'lnk.txt')
+			if os.path.exists(lnk_file):
+				os.remove(lnk_file)
+			while(not os.path.exists(self.cookie_file) and cnt < 20):
+				print(cnt)
+				print('wait Clouflare ')
+				time.sleep(1)
+				cnt = cnt+1
+					
+			p.kill()
+		else:
+			f = open(self.cookie_file,'w')
 			f.close()
-		self.web.setHtml('<html>Cookie Obtained</html>')
-		progress.setValue(100)
-		progress.hide()
+		
 
 
