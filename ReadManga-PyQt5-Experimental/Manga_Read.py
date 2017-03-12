@@ -30,7 +30,6 @@ import os.path
 from os.path import expanduser
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from PyQt5.QtWebKit import *
 import time
 import shutil
 from tempfile import mkstemp
@@ -41,8 +40,8 @@ import codecs
 import base64
 from headlessBrowser import BrowseUrl
 
-def cloudfare(url):
-	web = BrowseUrl(url)
+def cloudfare(url,q,c):
+	web = BrowseUrl(url,q,c)
 def getContentUnicode(content):
 	if isinstance(content,bytes):
 		print("I'm byte")
@@ -219,7 +218,7 @@ class Manga_Read():
 		self.hdr = 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:45.0) Gecko/20100101 Firefox/45.0'
 		if site == "KissManga":
 			if not os.path.isfile('/tmp/ReadManga/kcookieM.txt'):
-				cloudfare("http://kissmanga.com")
+				cloudfare("http://kissmanga.com",'','/tmp/ReadManga/kcookieM.txt')
 		else:
 			pass
 			
@@ -229,7 +228,7 @@ class Manga_Read():
 				os.remove('/tmp/ReadManga/kcookieM.txt')
 				if '#' in url:
 					url1 = url.split('#')[0]
-					cloudfare(url1)
+					cloudfare(url1,'','/tmp/ReadManga/kcookieM.txt')
 			content = ccurl(url)
 		return content
 		
