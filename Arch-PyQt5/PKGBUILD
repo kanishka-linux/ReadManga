@@ -11,7 +11,7 @@ depends=('python' 'python-pyqt5' 'python-pycurl' 'curl'
 #source=("git+https://github.com/kanishka-linux/ReadManga.git")
 source=("https://github.com/kanishka-linux/${_pkgname}/releases/download/v${pkgver}-${pkgrel}/${_pkgname}-${pkgver}-${pkgrel}.tar.bz2")
 md5sums=('SKIP')
-_gitname=ReadManga-PyQt5-Experimental
+_gitname=ReadManga-PyQt5
 
 
 
