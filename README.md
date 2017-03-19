@@ -25,17 +25,10 @@ Therefore, before using this application please check the copyright and licensin
 #Screenshot
 ![ReadManga](/Images/sample.png)
 
-#Note : 
-
-1. ReadManga-PyQt4-Stable is Stable version (Inside ReadManga-PyQt4-Stable Directory) and written in pyqt4 and python3.
-
-2. ReadManga-PyQt5-Experimental is experimental version (Inside ReadManga-PyQt5-Experimental Directory: Currently Working only in Arch-Linux) and written in pyqt5 and python3.
-
-3. If you've installed the Application using .deb or PKGBUILD, and somehow application launcher in the menu is not working, then open terminal and launch the application using command 'python -B /usr/share/ReadManga/mangaKA.py' or 'python3 -B /usr/share/ReadManga/mangaKA.py'.
 
 #Dependencies and Installation:
 
-**Arch:** PKGBUILD is available in Arch specific folder. First create pkg using command **'makepkg -s'** and then install using **'sudo pacman -U pkg_name'** (If user want to try PyQt5 version then first rename 'PKGBUILD-PyQt5' to 'PKGBUILD' before using it.)
+**Arch:** PKGBUILD is available in Arch specific folder. First create pkg using command **'makepkg -s'** and then install using **'sudo pacman -U pkg_name'**
 
 **Ubuntu or Debian based distro:** users can directly go to Release section,download appropriate .deb package and install it using **'sudo gdebi pkg_name.deb'**. It will resolve all the dependencies while installing the package. Normally 'dpkg -i' is used for installing .deb package in Debian based distros, but 'dpkg' won't install dependencies automatically, which users have to install manually as per instructions given below. Hence try to use 'gdebi' for convenience. For removing the package use 'sudo apt-get remove ReadManga' 
 
@@ -45,7 +38,7 @@ python3
 
 python-pyqt4 {for stable ReadManga Application}
 
-python-pyqt5 (for experimental ReadManga-PyQt5 Application)
+python-pyqt5 (for ReadManga-PyQt5 Application)
 
 python-pillow
 
@@ -65,11 +58,11 @@ sudo pacman -S python python-pyqt4 python-pycurl python-pillow python-beautifuls
 
 sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-pil python3-bs4 python3-lxml curl
 
-##Dependencies installation in arch (Experimental Version i.e. ReadManga-PyQt5).
+##Dependencies installation in arch (for ReadManga-PyQt5).
 
 sudo pacman -S python python-pyqt5 python-pycurl python-pillow python-beautifulsoup4 python-lxml curl
 
-In ubuntu 14.04, Experimental Version i.e. ReadManga-PyQt5 is not working 
+In ubuntu 14.04, ReadManga-PyQt5 is not working 
 
 Once Dependencies are installed Download the folder. Goto ReadManga Directory containing 'install.py' file (If you want stable version of the application written in pyqt4). If you want to try experimental version of the application written in pyqt5 then goto ReadManga-PyQt5 Directory containing 'install.py' file. 
 
