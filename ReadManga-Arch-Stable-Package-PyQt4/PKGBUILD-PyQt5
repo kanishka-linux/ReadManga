@@ -23,7 +23,7 @@ package() {
   install -d "${pkgdir}/usr/share/applications/"
   install -d "${pkgdir}/usr/bin/"
   # Program
-  install -Dm755 "${_bpath}"/{headlessBrowser.py,mangaKA.py,Manga_Read.py} "${pkgdir}/usr/share/${_pkgname}/"
+  install -Dm755 "${_bpath}"/{headlessBrowser.py,headlessEngine.py,mangaKA.py,Manga_Read.py} "${pkgdir}/usr/share/${_pkgname}/"
   cat "${_bpath}/readmanga.desktop" | sed 's/Exec=/Exec=python -B \/usr\/share\/ReadManga\/mangaKA.py/g' > "${pkgdir}/usr/share/applications/readmanga.desktop"
   echo '#!/bin/bash' > "${pkgdir}/usr/bin/read-manga"
   echo 'python -B /usr/share/ReadManga/mangaKA.py' >> "${pkgdir}/usr/bin/read-manga"
