@@ -40,6 +40,12 @@ import fileinput
 import codecs
 import base64
 from headlessBrowser import BrowseUrl
+import hashlib
+from binascii import unhexlify, b2a_base64, hexlify
+from Crypto.Cipher import AES
+import base64
+import urllib.parse
+
 def cloudfare(url):
 	web = BrowseUrl(url)
 def getContentUnicode(content):
@@ -170,10 +176,14 @@ def ccurl(url):
 			c.setopt(c.FOLLOWLOCATION, True)
 			c.setopt(c.USERAGENT, hdr)
 			c.setopt(c.WRITEDATA, storage)
-		c.perform()
-		c.close()
-		content = storage.getvalue()
-		content = getContentUnicode(content)
+		try:
+			c.perform()
+			c.close()
+			content = storage.getvalue()
+			content = getContentUnicode(content)
+		except Exception as e:
+			print(e,'---179--')
+			content = ''
 		return content
 		
 def progressBar(cmd):
@@ -210,6 +220,56 @@ def replace_all(text, di):
 
 	return text
 
+
+def decrypt_url(url,req_key):
+	
+	_0x331e=["\x6C\x69\x62","\x57\x6F\x72\x64\x41\x72\x72\x61\x79","\x48\x61\x73\x68\x65\x72","\x61\x6C\x67\x6F","\x73\x71\x72\x74","\x70\x6F\x77","\x53\x48\x41\x32\x35\x36","\x5F\x68\x61\x73\x68","\x73\x6C\x69\x63\x65","\x69\x6E\x69\x74","\x77\x6F\x72\x64\x73","\x5F\x64\x61\x74\x61","\x5F\x6E\x44\x61\x74\x61\x42\x79\x74\x65\x73","\x73\x69\x67\x42\x79\x74\x65\x73","\x66\x6C\x6F\x6F\x72","\x6C\x65\x6E\x67\x74\x68","\x63\x61\x6C\x6C","\x63\x6C\x6F\x6E\x65","\x65\x78\x74\x65\x6E\x64","\x48\x6D\x61\x63\x53\x48\x41\x32\x35\x36","\x61\x35\x65\x38\x65\x32\x65\x39\x63\x32\x37\x32\x31\x62\x65\x30\x61\x38\x34\x61\x64\x36\x36\x30\x63\x34\x37\x32\x63\x31\x66\x33","\x6D\x73\x68\x73\x64\x66\x38\x33\x32\x6E\x73\x64\x62\x61\x73\x68\x32\x30\x61\x73\x64\x6D","\x70\x61\x72\x73\x65","\x48\x65\x78","\x65\x6E\x63","\x42\x61\x73\x65\x36\x34","\x63\x72\x65\x61\x74\x65","\x43\x69\x70\x68\x65\x72\x50\x61\x72\x61\x6D\x73","\x43\x42\x43","\x6D\x6F\x64\x65","\x50\x6B\x63\x73\x37","\x70\x61\x64","\x64\x65\x63\x72\x79\x70\x74","\x41\x45\x53"]
+	
+	if req_key:
+		if len(req_key) == 2:
+			chko1 = req_key[0] 
+			chko2 = req_key[1]
+		else:
+			chko1 = req_key[0]
+			chko2 = req_key[0]  
+	else:
+		chko1 = _0x331e[21]
+		chko2 = _0x331e[21]
+		
+	key1 = hashlib.sha256(chko1.encode('utf-8')).digest()
+
+	key2 = hashlib.sha256(chko2.encode('utf-8')).digest()
+
+	boxzq = _0x331e[20]
+	chko = _0x331e[21]
+	key = hashlib.sha256(chko.encode('utf-8')).digest()
+	
+	#print(boxzq,len(boxzq))
+
+	m = [_0x331e[24],_0x331e[23],_0x331e[22]]
+	IV = unhexlify(bytes(boxzq,'utf-8'))
+	#print(IV,len(IV))
+	cipher = AES.new(key,AES.MODE_CBC,IV)
+	cipher1 = AES.new(key1,AES.MODE_CBC,IV)
+	cipher2 = AES.new(key2,AES.MODE_CBC,IV)
+
+	#print(cipher1,cipher2)
+	cy = url
+	x = base64.b64decode(bytes(cy,'utf-8'))
+	#print(x,len(x))
+	try:
+		c = cipher1.decrypt(x)
+		y = str(c,'utf-8')
+	except Exception as e:
+		print(e)
+		try:
+			c = cipher2.decrypt(x)
+			y = str(c,'utf-8')
+		except Exception as e:
+			print(e)
+			c = cipher.decrypt(x)
+			y = str(c,'utf-8')
+	return y
 
 
 class Manga_Read():
@@ -471,19 +531,43 @@ class Manga_Read():
 			return m
 	def getPage(self,site,name,epn):
 		if site == "KissManga":
+			
 			url = 'http://kissmanga.com/Manga/' + name + '/' + epn
 			print (url)
 			
 			content = ccurl(url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
 			content = self.ccurlN(content,url+'#'+'-b'+'#'+'/tmp/ReadManga/kcookieM.txt')
 			soup = BeautifulSoup(content)
+			#print(soup.prettify())
 			
-			m = re.findall('push[(]"http://[^"]*.jpg[^"]*|push[(]"http://[^"]*.png[^"]*|push[(]"https://[^"]*.jpg[^"]*|push[(]"https://[^"]*.png[^"]*|push[(]"http://[^"]*.JPG[^"]*|push[(]"http://[^"]*.PNG[^"]*|push[(]"https://[^"]*.JPG[^"]*|push[(]"https://[^"]*.PNG[^"]*',content)
+			scripts = soup.findAll('script',{'type':'text/javascript'})
+			req_key = []
+			for i in scripts:
+				if 'chko = ' in str(i):
+					j = i.text.strip()
+					k = re.search('var [^;]*',j).group()
+					print(k,'------kkkkkkkkkkkkkkk')
+					l = re.sub("var |;",'',k).split('=')[1].strip()
+					n = eval(l)
+					print(n[0])
+					req_key.append(n[0])
+					#o = re.search('chko = [^;]')
+			print(req_key)
+			m = re.findall('push[(]wrapKA[(]"[^"]*',content)
 			#print m
 			arr = []
 			for i in m:
-				i = re.sub('push[(]"','',i)
-				i = re.sub('"','',i)
+				i = re.sub('push[(]wrapKA[(]"','',i)
+				#i = re.sub('"','',i)
+				#print(i,'----------ii-----------')
+				i = decrypt_url(i,req_key)
+				j = i.split('.')[-1].lower()
+				if j == 'jpg' or j == 'jpeg' or j == 'png':
+					pass
+				else:
+					k = re.findall('http[^"]*.jpg|http[^"]*.jpeg|http[^"]*.JPG|http[^"]*.JPEG|http[^"]*.png|http[^"]*.PNG',i)
+					if k:
+						i = k[0]
 				arr.append(i)
 			return arr
 		elif site == "GoodManga":

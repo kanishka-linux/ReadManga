@@ -69,8 +69,11 @@ def ccurl(url):
 		c.setopt(c.USERAGENT, hdr)
 		f = open(picn_op,'wb')
 		c.setopt(c.WRITEDATA, f)
-		c.perform()
-		c.close()
+		try:
+			c.perform()
+			c.close()
+		except Exception as e:
+			print(e,'--76---')
 		f.close()
 	else:
 		if curl_opt == '-I':
@@ -1075,7 +1078,7 @@ class Ui_MainWindow(object):
 				jpgn = (urllib.parse.unquote(arrPage[i])).split('/')[-1]
 			except:
 				return 0
-			jpgn1 = re.sub('.jpg|.png','',jpgn)
+			jpgn1 = re.sub('.jpg|.png|.jpeg','',jpgn)
 			chapterNo_n = chapterNo.split('?')[0] 
 			if not chapterNo_n:
 					chapterNo_n = chapterNo
@@ -1088,7 +1091,7 @@ class Ui_MainWindow(object):
 			except:
 				pgText = '1.jpg'
 				
-			if '.jpg' in pgText or '.png' in pgText or '.JPG' in pgText or '.PNG' in pgText:
+			if '.jpg' in pgText or '.png' in pgText or '.JPG' in pgText or '.PNG' in pgText or '.jpeg' in pgText or '.JPEG' in pgText:
 				command = "wget --user-agent="+'"'+hdr+'" '+arrPage[i]+" -O "+picn
 				if os.path.exists(picn):
 					img_type = imghdr.what(picn)
@@ -1157,7 +1160,7 @@ class Ui_MainWindow(object):
 			jpgn = (urllib.parse.unquote(arrPage[pageNo_t])).split('/')[-1]
 		except:
 			return 0
-		jpgn1 = re.sub('.jpg|.png','',jpgn)
+		jpgn1 = re.sub('.jpg|.png|.jpeg','',jpgn)
 		chapterNo_n = chapterNo.split('?')[0] 
 		if not chapterNo_n:
 				chapterNo_n = chapterNo
@@ -1174,7 +1177,7 @@ class Ui_MainWindow(object):
 			pgText = self.list2.item(pageNo_t).text()
 		except:
 			pgText = '1.jpg'
-		if '.jpg' in pgText or '.png' in pgText or '.JPG' in pgText or '.PNG' in pgText:
+		if '.jpg' in pgText or '.png' in pgText or '.JPG' in pgText or '.PNG' in pgText or '.jpeg' in pgText or '.JPEG' in pgText:
 			command = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t]+" -O "+picn
 			if os.path.exists(picn):
 				img_type = imghdr.what(picn)
@@ -1208,14 +1211,14 @@ class Ui_MainWindow(object):
 		if pageNo_t+1 < len(arrPage): 
 			#jpgn_n = (arrPage[pageNo_t+1].split('/')[-1])
 			jpgn_n = (urllib.parse.unquote(arrPage[pageNo_t+1])).split('/')[-1]
-			jpgn_n = re.sub('.jpg|.png','',jpgn_n)
+			jpgn_n = re.sub('.jpg|.png|.jpeg','',jpgn_n)
 			chapterNo_n = chapterNo.split('?')[0]
 			if not chapterNo_n:
 				chapterNo_n = chapterNo 
 			picn1 = "/tmp/ReadManga/" + name + '-' + "chapter-" + chapterNo_n + "-page-" + jpgn_n
 			pgText = self.list2.item(pageNo_t+1).text()
 			imgUrl1 = arrPage[pageNo_t+1]
-			if '.jpg' in pgText or '.png' in pgText or '.JPG' in pgText or '.PNG' in pgText:
+			if '.jpg' in pgText or '.png' in pgText or '.JPG' in pgText or '.PNG' in pgText or '.jpeg' in pgText or '.JPEG' in pgText:
 				command1 = "wget --user-agent="+'"'+hdr+'" '+arrPage[pageNo_t+1]+" -O "+picn1
 				if os.path.exists(picn1):
 					img_type = imghdr.what(picn1)
@@ -1265,10 +1268,10 @@ class Ui_MainWindow(object):
 			imgUrl1 = arrPage[0]
 			#jpgn_n = (arrPage[0].split('/')[-1])
 			jpgn_n = (urllib.parse.unquote(arrPage[0])).split('/')[-1]
-			jpgn_n = re.sub('.jpg|.png','',jpgn_n)
+			jpgn_n = re.sub('.jpg|.png|.jpeg','',jpgn_n)
 			picn1 = "/tmp/ReadManga/" + name + '-' + "chapter-" + chapterNo_n + "-page-" + jpgn_n
 			pgText = self.list2.item(0).text()
-			if '.jpg' in pgText or '.png' in pgText or '.JPG' in pgText or '.PNG' in pgText:
+			if '.jpg' in pgText or '.png' in pgText or '.JPG' in pgText or '.PNG' in pgText or '.jpeg' in pgText or '.JPEG' in pgText:
 				command1 = "wget --user-agent="+'"'+hdr+'" '+arrPage[0]+" -O "+picn1
 				if os.path.exists(picn1):
 					img_type = imghdr.what(picn1)
@@ -1368,7 +1371,7 @@ class Ui_MainWindow(object):
 		index = 0
 		m = os.listdir('/tmp/ReadManga/')
 		for i in m:
-			if '.jpg' in i:
+			if '.jpg' in i or '.jpeg' in i or '.png' in i:
 				t = '/tmp/ReadManga/'+i
 				os.remove(t)
 		
@@ -1574,7 +1577,7 @@ if __name__ == "__main__":
 	try:
 		m = os.listdir('/tmp/ReadManga/')
 		for i in m:
-			if '.jpg' in i or '.png' in i:
+			if '.jpg' in i or '.png' in i or '.jpeg' in i:
 				t = '/tmp/ReadManga/'+i
 				os.remove(t)
 	
