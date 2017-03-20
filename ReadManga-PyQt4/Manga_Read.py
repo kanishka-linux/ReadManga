@@ -40,6 +40,12 @@ import fileinput
 import codecs
 import base64
 from headlessBrowser import BrowseUrl
+import hashlib
+from binascii import unhexlify, b2a_base64, hexlify
+from Crypto.Cipher import AES
+import base64
+import urllib.parse
+
 def cloudfare(url):
 	web = BrowseUrl(url)
 def getContentUnicode(content):
