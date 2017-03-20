@@ -1,7 +1,7 @@
 pkgname=ReadManga
 _pkgname=ReadManga
-pkgver=2.3.0
-pkgrel=3
+pkgver=2.4.0
+pkgrel=0
 pkgdesc="Online Manga Reader"
 arch=(any)
 license=('GPL3')
