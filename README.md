@@ -36,9 +36,9 @@ Therefore, before using this application please check the copyright and licensin
 
 python3
 
-python-pyqt4 {for stable ReadManga Application}
+python-pyqt4 {for PyQt4 version}
 
-python-pyqt5 (for ReadManga-PyQt5 Application)
+python-pyqt5 (for PyQt5 version)
 
 python-pillow
 
@@ -47,6 +47,8 @@ python-beautifulsoup4
 python-lxml
 
 python-pycurl
+
+python-crypto
 
 curl
 
