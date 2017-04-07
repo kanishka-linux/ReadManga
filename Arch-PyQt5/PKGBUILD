@@ -5,7 +5,7 @@ pkgrel=0
 pkgdesc="Online Manga Reader"
 arch=(any)
 license=('GPL3')
-depends=('python' 'python-pyqt5' 'python-pycurl' 'curl'
+depends=('python' 'python-pyqt5' 'python-pycurl' 'curl' 'python-crypto'
         'python-beautifulsoup4' 'python-pillow' 'python-lxml')
 
 #source=("git+https://github.com/kanishka-linux/ReadManga.git")
