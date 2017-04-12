@@ -128,7 +128,20 @@ def ccurl(url):
 		content = storage.getvalue()
 		content = getContentUnicode(content)
 		return content
-		
+
+def getContentUnicode(content):
+	if isinstance(content,bytes):
+		print("I'm byte")
+		try:
+			content = str((content).decode('utf-8'))
+		except:
+			content = str(content)
+	else:
+		print(type(content))
+		content = str(content)
+		print("I'm unicode")
+	return content
+
 class downloadThread(QtCore.QThread):
     
 	def __init__(self,url):
@@ -182,8 +195,11 @@ def imgReadyNew(p,n):
 	global ui
 	print(len(ui.imgArr))
 	img1 = QtGui.QPixmap(p, "1")
-	p7 = "ui.label_"+str(n)+".setPixmap(img1)"
-	exec (p7)
+	try:
+		p7 = "ui.label_"+str(n)+".setPixmap(img1)"
+		exec (p7)
+	except Exception as e:
+		print(e)
 
 @pyqtSlot(str,str,int)
 def downloadUrl_thread_finished(url,pic,num):
@@ -213,7 +229,10 @@ class downloadUrl(QtCore.QThread):
 		ka = Manga_Read(site)
 		imgUrl1 = ka.getPageImg(self.site,self.name,self.pgn) 
 		del ka
-		self.imgUrl.emit(imgUrl1,self.pic,self.label)
+		#self.imgUrl.emit(imgUrl1,self.pic,self.label)
+		if imgUrl1:
+			url = '{0}#-o#{1}'.format(imgUrl1,self.pic)
+			ccurl(url)
 
 class List3(QtWidgets.QListWidget):
 	def __init__(self, parent):
