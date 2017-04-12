@@ -220,24 +220,25 @@ def replace_all(text, di):
 
 	return text
 
-def decrypt_url(url,req_key):
+def decrypt_url(url,req_key,chk_exp):
 	
 	_0x331e=["\x6C\x69\x62","\x57\x6F\x72\x64\x41\x72\x72\x61\x79","\x48\x61\x73\x68\x65\x72","\x61\x6C\x67\x6F","\x73\x71\x72\x74","\x70\x6F\x77","\x53\x48\x41\x32\x35\x36","\x5F\x68\x61\x73\x68","\x73\x6C\x69\x63\x65","\x69\x6E\x69\x74","\x77\x6F\x72\x64\x73","\x5F\x64\x61\x74\x61","\x5F\x6E\x44\x61\x74\x61\x42\x79\x74\x65\x73","\x73\x69\x67\x42\x79\x74\x65\x73","\x66\x6C\x6F\x6F\x72","\x6C\x65\x6E\x67\x74\x68","\x63\x61\x6C\x6C","\x63\x6C\x6F\x6E\x65","\x65\x78\x74\x65\x6E\x64","\x48\x6D\x61\x63\x53\x48\x41\x32\x35\x36","\x61\x35\x65\x38\x65\x32\x65\x39\x63\x32\x37\x32\x31\x62\x65\x30\x61\x38\x34\x61\x64\x36\x36\x30\x63\x34\x37\x32\x63\x31\x66\x33","\x6D\x73\x68\x73\x64\x66\x38\x33\x32\x6E\x73\x64\x62\x61\x73\x68\x32\x30\x61\x73\x64\x6D","\x70\x61\x72\x73\x65","\x48\x65\x78","\x65\x6E\x63","\x42\x61\x73\x65\x36\x34","\x63\x72\x65\x61\x74\x65","\x43\x69\x70\x68\x65\x72\x50\x61\x72\x61\x6D\x73","\x43\x42\x43","\x6D\x6F\x64\x65","\x50\x6B\x63\x73\x37","\x70\x61\x64","\x64\x65\x63\x72\x79\x70\x74","\x41\x45\x53"]
 	
 	if req_key:
-		if len(req_key) == 2:
-			chko1 = req_key[0] 
-			chko2 = req_key[1]
-		else:
+		m = re.findall('chko',chk_exp)
+		if len(m) == 1:
 			chko1 = req_key[0]
 			chko2 = req_key[0]  
+		elif len(m) == 2:
+			chko1 = _0x331e[21] + req_key[0]
+			chko2 = _0x331e[21] + req_key[0]  
 	else:
 		chko1 = _0x331e[21]
 		chko2 = _0x331e[21]
 		
 	key1 = hashlib.sha256(chko1.encode('utf-8')).digest()
-
 	key2 = hashlib.sha256(chko2.encode('utf-8')).digest()
+	
 
 	boxzq = _0x331e[20]
 	chko = _0x331e[21]
@@ -540,6 +541,7 @@ class Manga_Read():
 			
 			scripts = soup.findAll('script',{'type':'text/javascript'})
 			req_key = []
+			chk = ''
 			for i in scripts:
 				if 'chko = ' in str(i):
 					j = i.text.strip()
@@ -548,6 +550,8 @@ class Manga_Read():
 					l = re.sub("var |;",'',k).split('=')[1].strip()
 					n = eval(l)
 					print(n[0])
+					chk = re.search('chko = [^;]*',j).group()
+					print(chk)
 					req_key.append(n[0])
 					#o = re.search('chko = [^;]')
 			print(req_key)
@@ -558,7 +562,7 @@ class Manga_Read():
 				i = re.sub('push[(]wrapKA[(]"','',i)
 				#i = re.sub('"','',i)
 				#print(i,'----------ii-----------')
-				i = decrypt_url(i,req_key)
+				i = decrypt_url(i,req_key,chk)
 				j = i.split('.')[-1].lower()
 				if j == 'jpg' or j == 'jpeg' or j == 'png':
 					pass
@@ -728,12 +732,10 @@ class Manga_Read():
 			
 			linkImg = soup.find('section',{'class':'read_img'})
 			if linkImg:
-				urlImg = linkImg.findAll('img')
+				urlImg = linkImg.findAll('img',{'id':'image'})
 				for i in urlImg:
 					if 'src=' in str(i):
-						url2 = i['src']
-						url1 = url2.split('?')[0]
-				
+						url1 = i['src']
 				print (url1)
 			return url1
 		elif site == "MangaReader":
