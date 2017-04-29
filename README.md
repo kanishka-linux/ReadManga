@@ -43,11 +43,11 @@ curl
 
 ### Ubuntu 14.04
 
-		sudo apt-get install python3 **python3-pyqt4** python3-pycurl python3-pil python3-bs4 python3-lxml curl python3-crypto
+		sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-pil python3-bs4 python3-lxml curl python3-crypto
 
 ### Ubuntu 16.04+
 
-		sudo apt-get install python3 **python3-pyqt5** python3-pycurl python3-pil python3-bs4 python3-lxml curl python3-crypto
+		sudo apt-get install python3 python3-pyqt5 python3-pycurl python3-pil python3-bs4 python3-lxml curl python3-crypto
 
 In Ubuntu, if PyQt5 version is old, then user can try installing PyQt5 using command 
 
@@ -58,11 +58,11 @@ Once Dependencies are installed Download or clone repository. Goto ReadManga Dir
 
 ### In Arch:
 
-python install.py
+		python install.py
 
 ### In Ubuntu 14.04+:
 
-python3 install.py
+		python3 install.py
 
 Application Launcher will be created as "~/.local/share/applications/readmanga.desktop"
 
