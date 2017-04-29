@@ -49,8 +49,8 @@ sudo apt-get install python3 **python3-pyqt4** python3-pycurl python3-pil python
 
 sudo apt-get install python3 **python3-pyqt5** python3-pycurl python3-pil python3-bs4 python3-lxml curl python3-crypto
 
+In Ubuntu, if PyQt5 version is old, then user can try installing PyQt5 using command **sudo pip3 install PyQt5** 
 
-In ubuntu 14.04, PyQt5 version is not working 
 
 Once Dependencies are installed Download or clone repository. Goto ReadManga Directory (either ReadManga-PyQt5 or ReadManga-PyQt4) containing 'install.py' file. Once you are inside the required directory, Open Terminal in the directory and execute **'python3 mangaKA.py'** to open the application directly or use following command to create application launcher:
 
