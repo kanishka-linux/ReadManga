@@ -37,21 +37,22 @@ python-crypto
 
 curl
 
-## Dependencies installation in arch.
+### Dependencies installation in arch.
 
 sudo pacman -S python python-pyqt5 python-pycurl python-pillow python-beautifulsoup4 python-lxml curl python-crypto
 
-## Ubuntu 14.04+ dependencies
+### Ubuntu 14.04
 
-sudo apt-get install python3 python3-pyqt4 python3-pycurl python3-pil python3-bs4 python3-lxml curl python3-crypto
+sudo apt-get install python3 **python3-pyqt4** python3-pycurl python3-pil python3-bs4 python3-lxml curl python3-crypto
+
+### Ubuntu 16.04+
+
+sudo apt-get install python3 **python3-pyqt5** python3-pycurl python3-pil python3-bs4 python3-lxml curl python3-crypto
 
 
 In ubuntu 14.04, PyQt5 version is not working 
 
-Once Dependencies are installed Download the folder. Goto ReadManga Directory containing 'install.py' file (If you want stable version of the application written in pyqt4). If you want to try experimental version of the application written in pyqt5 then goto ReadManga-PyQt5 Directory containing 'install.py' file. 
-
-
-Once you are inside the required directory, Open Terminal in the directory and execute **'python3 mangaKA.py'** to open the application directly or use following command to create application launcher:
+Once Dependencies are installed Download or clone repository. Goto ReadManga Directory (either ReadManga-PyQt5 or ReadManga-PyQt4) containing 'install.py' file. Once you are inside the required directory, Open Terminal in the directory and execute **'python3 mangaKA.py'** to open the application directly or use following command to create application launcher:
 
 ### In Arch:
 
