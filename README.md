@@ -4,7 +4,7 @@
 Therefore, before using this application please check the copyright and licensing laws of your country. Because it's possible that some of these Manga might be already licensed in your country. Therefore use this application at your own risk. Author of the 'ReadManga' application is not at all related to any of these sites or their content provider. This application is simply a desktop client that fetches manga images from sites on the internet. If the site from which this application fetches images either closes or changes it's source, then this application will also fail to perform it's designated function. 
 
 
-(If You've Already installed application using common method and now want to re-install it again using either .deb and .pkg.tar.xz or you want to try PyQt5 version, then first remove readmanga.desktop file located in '~/.local/share/applications/' and also remove config directory '~/.config/ReadMangaKA/src/')
+(If You've Already installed application using common method and now want to re-install it again using either .deb and .pkg.tar.xz or you want to try PyQt5 version, then first remove readmanga.desktop file located in '*~/.local/share/applications/*' and also remove config directory '*~/.config/ReadMangaKA/src/*')
 
 
 # Screenshot
@@ -75,13 +75,13 @@ Simply remove the application launcher '~/.local/share/applications/readmanga.de
 
 If Application Launcher in the menu is not working or programme is crashing then directly go to "~/.config/ReadMangaKA/src/", open terminal there and run "python3 mangaKA.py" or "python mangaKA.py" as per your default python setup. If there is some problem in installation, then you will get idea about it, whether it is missing dependency or something else, or you can report the error as per the message in terminal.
 
-If you do not find application launcher in the menu then try copying manually "~/.config/ReadMangaKA/readmanga.desktop" to either "~/.local/share/applications/" or "/usr/share/applications/"
+If you do not find application launcher in the menu then try copying manually "*~/.config/ReadMangaKA/readmanga.desktop*" to either "~/.local/share/applications/" or "/usr/share/applications/"
 
-In LXDE, XFCE or Cinnamon ,any new entry of launcher in '~/.local/share/applications/' is instantly shown in Start Menu (In this case, entry will be shown either in Multimedia or Sound & Video). In Ubuntu Unity you will have to either logout and login again or reboot to see the entry in Unity dash Menu.
+In LXDE, XFCE or Cinnamon ,any new entry of launcher in '*~/.local/share/applications/*' is instantly shown in Start Menu (In this case, entry will be shown either in Multimedia or Sound & Video). In Ubuntu Unity you will have to either logout and login again or reboot to see the entry in Unity dash Menu.
 
 If some source sites are not working then try clearing the cache directory '/tmp/ReadManga/' and relaunch the application.
 
-If next page does not load smoothly, try increasing/decreasing size of image using '-/=' keys or try removing "~/.config/ReadMangaKA/config.txt" and restart the application.
+If next page does not load smoothly, try increasing/decreasing size of image using '-/=' keys or try removing "*~/.config/ReadMangaKA/config.txt*" and restart the application.
 
 
 # Brief Documentation
