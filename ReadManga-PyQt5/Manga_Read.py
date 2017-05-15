@@ -116,7 +116,7 @@ def ccurl(url):
 			cookie_file = nUrl.split('#')[2]
 	url = str(url)
 	print(url,'----------url------')
-	c.setopt(c.URL, url)
+	c.setopt(c.URL, url.encode('utf-8'))
 	storage = BytesIO()
 	if curl_opt == '-o':
 		c.setopt(c.FOLLOWLOCATION, True)
@@ -226,19 +226,23 @@ def decrypt_url(url,req_key,chk_exp):
 	
 	if req_key:
 		m = re.findall('chko',chk_exp)
+		print(m)
 		if len(m) == 1:
 			chko1 = req_key[0]
 			chko2 = req_key[0]  
+			chko3 = req_key[0]  
 		elif len(m) == 2:
 			chko1 = _0x331e[21] + req_key[0]
 			chko2 = _0x331e[21] + req_key[0]  
+			chko3 = req_key[0] + req_key[1]  
 	else:
 		chko1 = _0x331e[21]
 		chko2 = _0x331e[21]
+		chko3 = _0x331e[21]
 		
 	key1 = hashlib.sha256(chko1.encode('utf-8')).digest()
 	key2 = hashlib.sha256(chko2.encode('utf-8')).digest()
-	
+	key3 = hashlib.sha256(chko3.encode('utf-8')).digest()
 
 	boxzq = _0x331e[20]
 	chko = _0x331e[21]
@@ -248,11 +252,11 @@ def decrypt_url(url,req_key,chk_exp):
 
 	m = [_0x331e[24],_0x331e[23],_0x331e[22]]
 	IV = unhexlify(bytes(boxzq,'utf-8'))
-	#print(IV,len(IV))
+	print(IV,len(IV))
 	cipher = AES.new(key,AES.MODE_CBC,IV)
 	cipher1 = AES.new(key1,AES.MODE_CBC,IV)
 	cipher2 = AES.new(key2,AES.MODE_CBC,IV)
-
+	cipher3 = AES.new(key3,AES.MODE_CBC,IV)
 	#print(cipher1,cipher2)
 	cy = url
 	x = base64.b64decode(bytes(cy,'utf-8'))
@@ -267,8 +271,13 @@ def decrypt_url(url,req_key,chk_exp):
 			y = str(c,'utf-8')
 		except Exception as e:
 			print(e)
-			c = cipher.decrypt(x)
-			y = str(c,'utf-8')
+			try:
+				c = cipher3.decrypt(x)
+				y = str(c,'utf-8')
+			except Exception as e:
+				print(e)
+				c = cipher.decrypt(x)
+				y = str(c,'utf-8')
 	return y
 		
 class Manga_Read():
