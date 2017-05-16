@@ -220,29 +220,28 @@ def replace_all(text, di):
 
 	return text
 
-def decrypt_url(url,req_key,chk_exp):
+def get_code_val():
+	_0x331e=["\x6C\x69\x62","\x57\x6F\x72\x64\x41\x72\x72\x61\x79","\x48\x61\x73\x68\x65\x72","\x61\x6C\x67\x6F","\x73\x71\x72\x74","\x70\x6F\x77","\x53\x48\x41\x32\x35\x36","\x5F\x68\x61\x73\x68","\x73\x6C\x69\x63\x65","\x69\x6E\x69\x74","\x77\x6F\x72\x64\x73","\x5F\x64\x61\x74\x61","\x5F\x6E\x44\x61\x74\x61\x42\x79\x74\x65\x73","\x73\x69\x67\x42\x79\x74\x65\x73","\x66\x6C\x6F\x6F\x72","\x6C\x65\x6E\x67\x74\x68","\x63\x61\x6C\x6C","\x63\x6C\x6F\x6E\x65","\x65\x78\x74\x65\x6E\x64","\x48\x6D\x61\x63\x53\x48\x41\x32\x35\x36","\x61\x35\x65\x38\x65\x32\x65\x39\x63\x32\x37\x32\x31\x62\x65\x30\x61\x38\x34\x61\x64\x36\x36\x30\x63\x34\x37\x32\x63\x31\x66\x33","\x6D\x73\x68\x73\x64\x66\x38\x33\x32\x6E\x73\x64\x62\x61\x73\x68\x32\x30\x61\x73\x64\x6D","\x70\x61\x72\x73\x65","\x48\x65\x78","\x65\x6E\x63","\x42\x61\x73\x65\x36\x34","\x63\x72\x65\x61\x74\x65","\x43\x69\x70\x68\x65\x72\x50\x61\x72\x61\x6D\x73","\x43\x42\x43","\x6D\x6F\x64\x65","\x50\x6B\x63\x73\x37","\x70\x61\x64","\x64\x65\x63\x72\x79\x70\x74","\x41\x45\x53"]
+	
+	return _0x331e[21]
+
+def decrypt_url(url,req_key):
 	
 	_0x331e=["\x6C\x69\x62","\x57\x6F\x72\x64\x41\x72\x72\x61\x79","\x48\x61\x73\x68\x65\x72","\x61\x6C\x67\x6F","\x73\x71\x72\x74","\x70\x6F\x77","\x53\x48\x41\x32\x35\x36","\x5F\x68\x61\x73\x68","\x73\x6C\x69\x63\x65","\x69\x6E\x69\x74","\x77\x6F\x72\x64\x73","\x5F\x64\x61\x74\x61","\x5F\x6E\x44\x61\x74\x61\x42\x79\x74\x65\x73","\x73\x69\x67\x42\x79\x74\x65\x73","\x66\x6C\x6F\x6F\x72","\x6C\x65\x6E\x67\x74\x68","\x63\x61\x6C\x6C","\x63\x6C\x6F\x6E\x65","\x65\x78\x74\x65\x6E\x64","\x48\x6D\x61\x63\x53\x48\x41\x32\x35\x36","\x61\x35\x65\x38\x65\x32\x65\x39\x63\x32\x37\x32\x31\x62\x65\x30\x61\x38\x34\x61\x64\x36\x36\x30\x63\x34\x37\x32\x63\x31\x66\x33","\x6D\x73\x68\x73\x64\x66\x38\x33\x32\x6E\x73\x64\x62\x61\x73\x68\x32\x30\x61\x73\x64\x6D","\x70\x61\x72\x73\x65","\x48\x65\x78","\x65\x6E\x63","\x42\x61\x73\x65\x36\x34","\x63\x72\x65\x61\x74\x65","\x43\x69\x70\x68\x65\x72\x50\x61\x72\x61\x6D\x73","\x43\x42\x43","\x6D\x6F\x64\x65","\x50\x6B\x63\x73\x37","\x70\x61\x64","\x64\x65\x63\x72\x79\x70\x74","\x41\x45\x53"]
 	
 	if req_key:
-		m = re.findall('chko',chk_exp)
-		print(m)
-		if len(m) == 1:
+		if len(req_key) >= 2:
 			chko1 = req_key[0]
-			chko2 = req_key[0]  
-			chko3 = req_key[0]  
-		elif len(m) == 2:
-			chko1 = _0x331e[21] + req_key[0]
-			chko2 = _0x331e[21] + req_key[0]  
-			chko3 = req_key[0] + req_key[1]  
+			chko2 = req_key[1]
+		else:
+			chko1 = req_key[0]
+			chko2 = req_key[0]
 	else:
 		chko1 = _0x331e[21]
 		chko2 = _0x331e[21]
-		chko3 = _0x331e[21]
 		
 	key1 = hashlib.sha256(chko1.encode('utf-8')).digest()
 	key2 = hashlib.sha256(chko2.encode('utf-8')).digest()
-	key3 = hashlib.sha256(chko3.encode('utf-8')).digest()
 
 	boxzq = _0x331e[20]
 	chko = _0x331e[21]
@@ -256,7 +255,6 @@ def decrypt_url(url,req_key,chk_exp):
 	cipher = AES.new(key,AES.MODE_CBC,IV)
 	cipher1 = AES.new(key1,AES.MODE_CBC,IV)
 	cipher2 = AES.new(key2,AES.MODE_CBC,IV)
-	cipher3 = AES.new(key3,AES.MODE_CBC,IV)
 	#print(cipher1,cipher2)
 	cy = url
 	x = base64.b64decode(bytes(cy,'utf-8'))
@@ -271,13 +269,8 @@ def decrypt_url(url,req_key,chk_exp):
 			y = str(c,'utf-8')
 		except Exception as e:
 			print(e)
-			try:
-				c = cipher3.decrypt(x)
-				y = str(c,'utf-8')
-			except Exception as e:
-				print(e)
-				c = cipher.decrypt(x)
-				y = str(c,'utf-8')
+			c = cipher.decrypt(x)
+			y = str(c,'utf-8')
 	return y
 		
 class Manga_Read():
@@ -551,8 +544,10 @@ class Manga_Read():
 			scripts = soup.findAll('script',{'type':'text/javascript'})
 			req_key = []
 			chk = ''
+			index = 0
 			for i in scripts:
 				if 'chko = ' in str(i):
+					print(i)
 					j = i.text.strip()
 					k = re.search('var [^;]*',j).group()
 					print(k,'------kkkkkkkkkkkkkkk')
@@ -561,8 +556,17 @@ class Manga_Read():
 					print(n[0])
 					chk = re.search('chko = [^;]*',j).group()
 					print(chk)
-					req_key.append(n[0])
-					#o = re.search('chko = [^;]')
+					new_chk = chk.split('=')[1]
+					if 'chko' in new_chk and index == 0:
+						new_val = get_code_val() + n[0]
+					elif 'chko' in new_chk and index == 1:
+						new_val = req_key[0] + n[0]
+					else:
+						new_val = n[0]
+					req_key.append(new_val)
+					print(req_key)
+					index += 1
+					
 			print(req_key)
 			m = re.findall('push[(]wrapKA[(]"[^"]*',content)
 			#print m
@@ -571,7 +575,7 @@ class Manga_Read():
 				i = re.sub('push[(]wrapKA[(]"','',i)
 				#i = re.sub('"','',i)
 				#print(i,'----------ii-----------')
-				i = decrypt_url(i,req_key,chk)
+				i = decrypt_url(i,req_key)
 				j = i.split('.')[-1].lower()
 				if j == 'jpg' or j == 'jpeg' or j == 'png':
 					pass
